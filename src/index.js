@@ -5,7 +5,11 @@ const { engine } = require('express-handlebars')
 const { urlencoded } = require('express')
 const app = express()
 const port = 3000
+
 const route = require('./routes/index')
+const db = require('./config/db/index')
+// connect db
+db.connect()
 
 // http logger
 app.use(express.static(path.join(__dirname, 'public')))

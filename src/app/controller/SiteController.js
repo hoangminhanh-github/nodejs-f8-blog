@@ -1,9 +1,14 @@
+const Course = require('../models/Course')
 class SiteController {
-  // [get] /news
-  index(req, res) {
-    res.render('home')
+  // [get] /home
+  index(req, res, next) {
+    Course.find({})
+      // hàm lean đổi custom object thành construct object
+      .lean()
+      .then((courses) => res.render('home', { courses }))
+      .catch(next)
   }
-  //
+  // [get] /search
   search(req, res) {
     res.render('search')
   }
