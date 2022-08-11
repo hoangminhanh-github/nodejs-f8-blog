@@ -14,15 +14,25 @@ db.connect()
 // http logger
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(express.urlencoded((extended = true)))
+app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json())
 
 app.use(morgan('combined'))
 // template engine
-app.engine('.hbs', engine({ extname: '.hbs' }))
+app.engine(
+  'handlebars',
+  engine({
+    extname: '.hbs',
+    helper: {
+      sum(a, b) {
+        return a + b
+      },
+    },
+  }),
+)
 
-app.set('view engine', '.hbs')
+app.set('view engine', 'handlebars')
 // set đường dẫn đến thư mục views
 app.set('views', path.join(__dirname, 'resources/views'))
 
