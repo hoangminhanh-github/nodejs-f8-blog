@@ -8,12 +8,13 @@ const port = 3000
 
 const route = require('./routes/index')
 const db = require('./config/db/index')
+const methodOverride = require('method-override')
 // connect db
 db.connect()
 
 // http logger
 app.use(express.static(path.join(__dirname, 'public')))
-
+app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json())
@@ -21,18 +22,13 @@ app.use(express.json())
 app.use(morgan('combined'))
 // template engine
 app.engine(
-  'handlebars',
+  '.hbs',
   engine({
     extname: '.hbs',
-    helper: {
-      sum(a, b) {
-        return a + b
-      },
-    },
   }),
 )
 
-app.set('view engine', 'handlebars')
+app.set('view engine', '.hbs')
 // set đường dẫn đến thư mục views
 app.set('views', path.join(__dirname, 'resources/views'))
 

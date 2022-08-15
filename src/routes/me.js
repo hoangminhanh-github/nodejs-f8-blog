@@ -5,4 +5,6 @@ const meController = require('../app/controller/MeController')
 
 router.get('/stored/courses', meController.storedCourses)
 
+router.get('/trash/courses', meController.trash)
+
 module.exports = router

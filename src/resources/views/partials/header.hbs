@@ -2,7 +2,7 @@
   <a class='navbar-brand' href='/'>Navbar</a>
 
   <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-    <ul class='navbar-nav ml-auto' style='margin-right: 50px;'>
+    <ul class='navbar-nav' style='margin-right: 50px;'>
       <li class='nav-item active'>
         <a class='nav-link' href='/'>Home <span class='sr-only'>(current)</span></a>
       </li>
@@ -12,20 +12,13 @@
       </li>
       {{! drop down }}
       <li class='nav-item dropdown'>
-        <a
-          class='nav-link dropdown-toggle'
-          href='#'
-          id='navbarDropdown'
-          role='button'
-          data-toggle='dropdown'
-          aria-haspopup='true'
-          aria-expanded='false'
-        >
+        <a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown'
+          aria-haspopup='true' aria-expanded='false'>
           Courses
         </a>
-        <div style='display: block;' class='dropdown-menu' aria-labelledby='navbarDropdown'>
-          <a class='dropdown-item' href='/courses/create'>Đăng khóa học</a>
+        <div class='dropdown-menu' aria-labelledby='navbarDropdown'>
           <a class='dropdown-item' href='/me/stored/courses'>Khóa học của tôi</a>
+          <a class='dropdown-item' href='/courses/create'>Đăng khóa học</a>
         </div>
       </li>
     </ul>

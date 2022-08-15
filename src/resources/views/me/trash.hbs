@@ -1,0 +1,71 @@
+<div class='mt-4'>
+  <div style='display:flex ; align-items:center'>
+    <h4 style='margin-right: 10px;'>Thùng rác</h4>
+    <a href='/me/stored/courses'>Khóa học của tôi</a>
+  </div>
+  <table class='table table-hover'>
+    <thead>
+      <tr>
+        <th scope='col'>#</th>
+        <th scope='col'>Tên Khóa Học</th>
+        <th scope='col'>Trình Độ</th>
+        <th scope='col'>Thời Gian Xóa</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each courses}}
+
+      <tr>
+        <th scope='row'>{{sum @index 1}}</th>
+        <td><a href='/courses/{{this.slug}}'>{{this.name}}</a></td>
+        <td>{{this.level}}</td>
+        <td>{{this.deletedAt}}</td>
+        <td>
+          <a href='' data-id='{{this._id}}' type='button' class='btn btn-link btn-restore'>Khôi phục</a>
+          <a href='' class='btn btn-link btn-force-delete' data-toggle='modal' data-target='#delete-course'
+            data-id='{{this._id}}'>
+            Xoá vĩnh viễn
+          </a>
+        </td>
+
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan='5' class='text-center'>Thùng rác trống
+          <a href='/me/stored/courses/'>Các khóa học của tôi</a>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+{{! hidden form }}
+<form name='restore-courses-form' action='' method='post'></form>
+<form name='force-delete-courses-form' action='' method='post'></form>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var restoreForm = document.forms['restore-courses-form'];
+    var forceDeleteForm = document.forms['force-delete-courses-form'];
+    var restoreBtn = $('.btn-restore');
+    var forceDeleteBtn = $('.btn-force-delete');
+    restoreBtn.click(function (e) {
+      e.preventDefault();
+      courseId = $(this).data('id');
+      restoreForm.action = '/courses/' + courseId + '/restore?_method=PATCH';
+      restoreForm.submit()
+    });
+    forceDeleteBtn.click(function (e) {
+      e.preventDefault();
+      courseId = $(this).data('id');
+
+      forceDeleteForm.action = '/courses/' + courseId + '/delete/force?_method=DELETE';
+      forceDeleteForm.submit()
+    });
+  })
+
+</script>
