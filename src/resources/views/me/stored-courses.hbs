@@ -10,12 +10,14 @@
         </label>
       </div>
       {{!-- --}}
-      <select class="custom-select custom-select-sm" style="width:150px" name="action">
-        <option selected>---Chọn hành động---</option>
-        <option value="1">--Xóa--</option>
+      <select class="custom-select custom-select-sm" style="width:150px" name="action" required>
+        <option selected value="">---Chọn hành động---</option>
+        <option value="delete">--Xóa--</option>
 
       </select>
-      <button class="btn btn-primary btn-sm active-btn disabled" type="submit">Thực hiện</button>
+      <button class="btn btn-primary btn-sm active-btn disabled " data-toggle='modal' data-target='#delete-course'
+        type="button">Thực
+        hiện</button>
     </div>
   </div>
   <table class='table table-hover'>
@@ -47,7 +49,8 @@
           <a href='/courses/{{this._id}}/edit' type='button' class='btn btn-link'>Sửa</a>
         </td>
         <td>
-          <a href='' class='btn btn-link' data-toggle='modal' data-target='#delete-course' data-id='{{this._id}}'>
+          <a href='' class='btn btn-link delete-one' data-toggle='modal' data-target='#delete-course'
+            data-id='{{this._id}}'>
             Xóa
           </a>
         </td>
@@ -90,12 +93,26 @@
     var checkboxAll = $('#checkbox-all')
     var courseItemCheckbox = $('input[name="courseIds[]"]')
     var activeBtn = $('.active-btn')
-    const forms = document.forms['container-form']
+    var btnDelete = document.querySelector('.btn.btn-danger');
+    var forms = document.forms['container-form']
     $('#delete-course').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget);
-      var id = button.data('id');
-      var btnDelete = document.querySelector('.btn.btn-danger');
-      btnDelete.onclick = function (e) { location.replace(`/courses/${id}/delete`) }
+      console.log(button[0].className)
+      switch (button[0].className) {
+        case 'btn btn-link delete-one':
+          var id = button.data('id');
+          btnDelete.onclick = function (e) { location.replace(`/courses/${id}/delete`) }
+          break
+        case 'btn btn-primary btn-sm active-btn':
+          btnDelete.onclick = function () {
+            if (!activeBtn.hasClass('disabled')) {
+              forms.submit()
+            }
+          }
+          break
+        default:
+          console.log('loi')
+      }
     })
     //checkbox all changed
     checkboxAll.change(function () {
@@ -120,12 +137,10 @@
       }
       else {
         activeBtn.addClass('disabled')
+
       }
-      console.log(checkCount)
     }
-    //
-
-
+    // can submit activeBtn??
 
   })
 </script>

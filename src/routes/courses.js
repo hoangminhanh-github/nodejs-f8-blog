@@ -17,6 +17,8 @@ router.get('/:id/delete', courseController.delete)
 
 router.delete('/:id/delete/force', courseController.forceDelete)
 
+router.delete('/multi-delete/force', courseController.multiForceDelete)
+
 router.patch('/:id/restore', courseController.restore)
 
 router.get('/:slug', courseController.show)

@@ -45,6 +45,11 @@ class CourseController {
   forceDelete(req, res, next) {
     Course.deleteOne({ _id: req.params.id }).then(res.redirect('/me/trash/courses')).catch(next)
   }
+  // [delete]/courses//multi-delete/force
+  multiForceDelete(req, res, next) {
+    Course.deleteOne({ _id: req.params.id }).lean().then(res.redirect('/me/trash/courses')).catch(next)
+  }
+
   // [patch] /courses/:id/restore
   restore(req, res, next) {
     Course.restore({ _id: req.params.id })
@@ -56,7 +61,22 @@ class CourseController {
   }
   //[post] /courses/handle-form-action
   handleFormAction(req, res, next) {
-    res.json(req.body)
+    // res.json(req.body)
+    switch (req.body.action) {
+      case 'delete':
+        Course.delete({ _id: { $in: req.body.courseIds } })
+          .lean()
+          .then(res.redirect('/me/stored/courses'))
+          .catch(next)
+        break
+      case 'force-delete':
+        Course.deleteMany({ _id: { $in: req.body.courseIds } })
+          .lean()
+          .then(res.redirect('back'))
+          .catch(next)
+      default:
+        res.json({ hehe: 'haha' })
+    }
   }
 }
 
