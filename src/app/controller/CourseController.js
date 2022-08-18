@@ -74,8 +74,17 @@ class CourseController {
           .lean()
           .then(res.redirect('back'))
           .catch(next)
+        break
+      case 'multi-restore':
+        Course.restore({ _id: { $in: req.body.courseIds } })
+          .lean()
+          .then(() => {
+            res.redirect('back')
+          })
+          .catch(next)
+        break
       default:
-        res.json({ hehe: 'haha' })
+        res.redirect('back')
     }
   }
 }

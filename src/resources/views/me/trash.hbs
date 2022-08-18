@@ -13,7 +13,7 @@
       {{!-- --}}
       <select class="custom-select custom-select-sm" style="width:150px" name="action" required>
         <option selected value="">---Chọn hành động---</option>
-        <option value="">--Khôi phục--</option>
+        <option value="multi-restore">--Khôi phục--</option>
         <option value="force-delete">--Xóa vĩnh viễn--</option>
 
       </select>
@@ -46,7 +46,8 @@
         <td>{{this.level}}</td>
         <td>{{this.deletedAt}}</td>
         <td>
-          <a href='' data-id='{{this._id}}' type='button' class='btn btn-link btn-restore'>Khôi phục</a>
+          <a href='' data-id='{{this._id}}' type='button' class='btn btn-link btn-restore' data-id='{{this._id}}'>Khôi
+            phục</a>
           <a href="" class='btn btn-link btn-force-delete' data-toggle='modal' data-target='#force-delete-course'
             data-id='{{this._id}}'>
             Xoá vĩnh viễn
@@ -78,11 +79,11 @@
         </button>
       </div>
       <div class='modal-body'>
-        Xác nhận muốn xóa
+        Xác nhận thực hiện hành động này !!
       </div>
       <div class='modal-footer'>
-        <button type='button' class='btn btn-danger'>Đồng ý xóa</button>
-        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy Xóa</button>
+        <button type='button' class='btn btn-danger'>Đồng ý</button>
+        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Hủy</button>
       </div>
     </div>
   </div>
@@ -115,28 +116,35 @@
       var button = $(event.relatedTarget)
       switch (button[0].tagName) {
         case 'A':
-          btnDelete.onclick = function (e) {
-            e.preventDefault();
-            courseId = button.data('id');
-            forceDeleteForm.action = '/courses/' + courseId + '/delete/force?_method=DELETE';
-            forceDeleteForm.submit()
-          };
+          if (button.hasClass('btn-force-delete')) {
+            btnDelete.onclick = function (e) {
+              e.preventDefault();
+              courseId = button.data('id');
+              forceDeleteForm.action = '/courses/' + courseId + '/delete/force?_method=DELETE';
+              forceDeleteForm.submit()
+            };
+          }
+          break
         case 'BUTTON':
           if (btnDelete)
             btnDelete.onclick = function (e) {
               form.submit()
             }
+          break
         default:
 
       }
 
     })
+
     restoreBtn.click(function (e) {
       e.preventDefault();
-      courseId = $(this).data('id');
+      courseId = restoreBtn.data('id');
+      console.log(courseId)
       restoreForm.action = '/courses/' + courseId + '/restore?_method=PATCH';
       restoreForm.submit()
     });
+
 
     checkboxAll.change(function () {
       var isCheckedAll = $(this).prop('checked')
@@ -163,7 +171,7 @@
 
       }
     }
-    console.log(form)
+
   })
 
 </script>
