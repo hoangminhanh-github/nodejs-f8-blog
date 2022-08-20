@@ -10,15 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hoangminhanh-github/nodejs-f8-blog.git"
+    "url": "git+https://github.com/hoangminhanh-github/nodejs-f8-blog-mysql.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hoangminhanh-github/nodejs-f8-blog/issues"
+    "url": "https://github.com/hoangminhanh-github/nodejs-f8-blog-mysql/issues"
   },
-  "homepage": "https://github.com/hoangminhanh-github/nodejs-f8-blog#readme",
+  "homepage": "https://github.com/hoangminhanh-github/nodejs-f8-blog-mysql#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "method-override": "^3.0.0",
@@ -26,7 +27,11 @@
     "mongoose-delete": "^0.5.4",
     "mongoose-slug-generator": "^1.0.4",
     "mysql2": "^2.3.3",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "sequelize": "^6.21.4",
+    "sequelize-cli": "^6.4.1",
+    "sqlite3": "^5.0.11",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "morgan": "^1.10.0",
