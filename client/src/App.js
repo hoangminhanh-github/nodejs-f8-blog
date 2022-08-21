@@ -1,26 +1,23 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
+import CreateUser from "./modules/User/CreateUser";
 
 import "./App.css";
 
 function App() {
-  const [data, setData] = useState();
-  useEffect(() => {
-    getPosts();
-  }, []);
-  const getPosts = async () => {
-    const data = await axios.get("http://localhost:3001/");
-    setData(data.data);
-  };
-
   return (
     <div className="App">
-      {data?.map((res, index) => (
-        <div key={index}>
-          <span>{res.firstName}</span>
-          <span>{res.lastName}</span>
-        </div>
-      ))}
+      <Router>
+        <Routes>
+          <Route path="/" element={<CreateUser></CreateUser>}></Route>
+        </Routes>
+      </Router>
     </div>
   );
 }
