@@ -11,6 +11,21 @@ class UserController {
         res.json(err)
       })
   }
+  // [post] /users/:id/details
+  details(req, res, next) {
+    const userId = req.params.id
+    db.Users.findOne({
+      where: {
+        id: userId,
+      },
+    })
+      .then((hehe) => {
+        res.json(hehe)
+      })
+      .catch((err) => {
+        res.json(err)
+      })
+  }
   // [get] /users
   index(req, res, next) {
     res.json('this is users')
