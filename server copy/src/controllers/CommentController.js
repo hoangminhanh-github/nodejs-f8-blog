@@ -15,7 +15,37 @@ class CommentController {
         res.json(err)
       })
   }
-  // [get] /search
+
+  // [post] /comment/create
+  create(req, res, next) {
+    const comment = req.body.comment
+    const userId = req.body.id
+    db.Comments.create({
+      commentBody: comment,
+      UserId: userId,
+    })
+      .then((results) => {
+        res.json(results)
+      })
+      .catch(next)
+  }
+
+  delete(req, res, next) {
+    const commentId = req.body.commentId
+    const userId = req.body.userId
+    console.log(commentId)
+    console.log(userId)
+    db.Comments.destroy({
+      where: {
+        UserId: userId,
+        id: commentId,
+      },
+    })
+      .then((results) => {
+        res.json(results)
+      })
+      .catch(next)
+  }
 }
 
 module.exports = new CommentController()

@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  .card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .card-body {
+    }
+  }
+  .comments {
+    .comment-line {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
