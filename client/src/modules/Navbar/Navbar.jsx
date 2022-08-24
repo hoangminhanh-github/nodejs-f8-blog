@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
       <Link to={"/"} className="navbar-brand">
         Home
       </Link>
@@ -31,6 +31,14 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
+      </div>
+      <div className="mr-auto">
+        <button className="btn" style={{ backgroundColor: "transparent" }}>
+          <Link to={"/users/register"}>Register</Link>
+        </button>
+        <button className="btn" style={{ backgroundColor: "transparent" }}>
+          <Link to={"/auth/login"}>Login</Link>
+        </button>
       </div>
     </nav>
   );

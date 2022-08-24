@@ -55,7 +55,7 @@ const Details = () => {
         <div className="card-body">
           <span>User Name : </span>
           <h5 className="card-title">
-            {userDetails?.firstName + userDetails?.lastName}
+            {userDetails?.firstName} {userDetails?.lastName}
           </h5>
           <span>Email : </span>
           <p className="card-text">{userDetails?.email}</p>
