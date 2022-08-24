@@ -2,18 +2,19 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import "./Register.scss";
 const Register = () => {
   let navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      userName: "",
+      account: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: Yup.object({
-      userName: Yup.string().required("Nhập trường này chưa ???"),
+      account: Yup.string().required("Nhập trường này chưa ???"),
       password: Yup.string().required(
         "Nhập trường này chưa,địt mẹ cứ để nhắc thế nhỉ???"
       ),
@@ -25,6 +26,11 @@ const Register = () => {
     onSubmit: (values) => {
       delete values.confirmPassword;
       console.log(values);
+      axios
+        .post("http://localhost:3001/account/register", values)
+        .then((data) => {
+          console.log(data.data);
+        });
       navigate("/auth/login");
     },
   });
@@ -34,7 +40,7 @@ const Register = () => {
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">User name</label>
           <input
-            name="userName"
+            name="account"
             type="text"
             className="form-control"
             id="exampleInputEmail1"
