@@ -1,5 +1,7 @@
 const db = require('../models')
 const bcrypt = require('bcrypt')
+const { sign } = require('jsonwebtoken')
+
 class AccountController {
   // [post] /account/register
   register(req, res, next) {
@@ -20,16 +22,17 @@ class AccountController {
       },
     })
       .then((result) => {
-        bcrypt.compare(password, result.password, function (err, kq) {
-          if (kq) {
-            res.json(result)
+        bcrypt.compare(password, result.password, function (err, allowUser) {
+          if (allowUser) {
+            const accessToken = sign({ firstName: allowUser.userName, id: allowUser.id }, 'important')
+            res.json(accessToken)
           } else {
-            res.json((err = 'Password for this account is wrong !!!!'))
+            res.json({ error: 'Password for this account is wrong !!!!' })
           }
         })
       })
       .catch((err) => {
-        res.json('Account user not found')
+        res.json({ error: 'account not found' })
       })
   }
 }

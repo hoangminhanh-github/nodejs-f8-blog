@@ -12,11 +12,13 @@ const Login = () => {
       password: "",
     },
     onSubmit: (values) => {
-      // console.log(values);
       axios.post("http://localhost:3001/account/login", values).then((data) => {
-        if (typeof data.data == "object") {
+        if (!data.data.error) {
           alert("dang nhap thanh cong");
+          sessionStorage.setItem("accessToken", data.data);
           navigate("/");
+        } else {
+          alert(data.data.error);
         }
       });
     },

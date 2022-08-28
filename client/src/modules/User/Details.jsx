@@ -33,10 +33,22 @@ const Details = () => {
     e.preventDefault();
 
     if (comment?.trim().length > 0) {
-      await axios.post(`http://localhost:3001/comment/create`, {
-        comment: comment,
-        id: id,
-      });
+      const response = await axios.post(
+        `http://localhost:3001/comment/create`,
+        {
+          comment: comment,
+          id: id,
+        },
+        {
+          headers: {
+            accessToken: sessionStorage.getItem("accessToken"),
+          },
+        }
+      );
+      if (response.data.error) {
+        alert("Mày chưa đăng nhập phải không thằng lồn !!");
+      }
+
       setComment("");
     }
   };
