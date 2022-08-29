@@ -4,6 +4,7 @@ const CommentController = require('../controllers/CommentController')
 const { validateToken } = require('../middlewares/AuthMiddleware')
 
 router.post('/create', validateToken, CommentController.create)
+// router.post('/create', validateToken)
 router.delete('/delete', CommentController.delete)
 router.get('/:userId', CommentController.index)
 

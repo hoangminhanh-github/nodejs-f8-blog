@@ -1,6 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserReduce } from "../Auth/redux/AuthReduce";
 const Navbar = () => {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state) => state.auth.isLogin);
+  console.log(isLogin);
+  const handleLogout = () => {
+    sessionStorage.removeItem("accessToken");
+    dispatch(setUserReduce(false));
+    alert("User is logout");
+    navigate("/");
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
       <Link to={"/"} className="navbar-brand">
@@ -21,7 +33,10 @@ const Navbar = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
-            <Link to={"/users/create"} className="nav-link">
+            <Link
+              to={isLogin ? "/users/create" : "/auth/login"}
+              className="nav-link"
+            >
               Create User
             </Link>
           </li>
@@ -33,12 +48,26 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="mr-auto">
-        <button className="btn" style={{ backgroundColor: "transparent" }}>
-          <Link to={"/users/register"}>Register</Link>
-        </button>
-        <button className="btn" style={{ backgroundColor: "transparent" }}>
-          <Link to={"/auth/login"}>Login</Link>
-        </button>
+        {!isLogin ? (
+          <>
+            <button className="btn" style={{ backgroundColor: "transparent" }}>
+              <Link to={"/users/register"}>Register</Link>
+            </button>
+            <button className="btn" style={{ backgroundColor: "transparent" }}>
+              <Link to={"/auth/login"}>Login</Link>
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              className="btn"
+              style={{ backgroundColor: "transparent" }}
+              onClick={handleLogout}
+            >
+              logout
+            </button>
+          </>
+        )}
       </div>
     </nav>
   );

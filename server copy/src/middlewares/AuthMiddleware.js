@@ -1,4 +1,5 @@
 const { verify } = require('jsonwebtoken')
+var jwt = require('jsonwebtoken')
 const validateToken = (req, res, next) => {
   const accessToken = req.header('accessToken')
   if (!accessToken) {
@@ -6,7 +7,9 @@ const validateToken = (req, res, next) => {
   }
 
   try {
-    const validToken = verify(accessToken, 'important')
+    const validToken = jwt.verify(accessToken, 'important')
+    console.log(validToken)
+    req.user = validToken.firstName
     if (validToken) {
       return next()
     }

@@ -13,8 +13,11 @@ import Details from "./modules/User/Details";
 import Login from "./modules/Auth/Login/Login";
 import Register from "./modules/Auth/Regsiter/Register";
 import "./App.css";
-
+import store from "./redux/Store";
+import { Provider } from "react-redux";
+import { useSelector } from "react-redux";
 function App() {
+  const isLogin = useSelector((state) => state.auth.isLogin);
   return (
     <div className="App">
       <Router>
@@ -22,10 +25,12 @@ function App() {
         <Navbar></Navbar>
 
         <Routes>
-          <Route
-            path="/users/create"
-            element={<CreateUser></CreateUser>}
-          ></Route>
+          {isLogin && (
+            <Route
+              path="/users/create"
+              element={<CreateUser></CreateUser>}
+            ></Route>
+          )}
           <Route path="/users/:slug" element={<Details></Details>}></Route>
           <Route path="/auth/login" element={<Login></Login>}></Route>
           <Route path="/users/register" element={<Register></Register>}></Route>

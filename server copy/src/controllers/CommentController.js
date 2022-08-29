@@ -20,9 +20,12 @@ class CommentController {
   create(req, res, next) {
     const comment = req.body.comment
     const userId = req.body.id
+    const firstName = req.user
+    console.log(firstName)
     db.Comments.create({
       commentBody: comment,
       UserId: userId,
+      firstName: firstName,
     })
       .then((results) => {
         res.json(results)

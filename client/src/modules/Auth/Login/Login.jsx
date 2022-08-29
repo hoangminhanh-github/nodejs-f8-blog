@@ -2,9 +2,12 @@ import React from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./Login.scss";
+import { setUserReduce } from "../redux/AuthReduce";
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -16,6 +19,7 @@ const Login = () => {
         if (!data.data.error) {
           alert("dang nhap thanh cong");
           sessionStorage.setItem("accessToken", data.data);
+          dispatch(setUserReduce(true));
           navigate("/");
         } else {
           alert(data.data.error);

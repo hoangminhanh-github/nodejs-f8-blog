@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-
+import JWT from "jwt-client";
 import "./Details.scss";
 const Details = () => {
   const { slug } = useParams();
@@ -13,7 +13,9 @@ const Details = () => {
   const [userDetails, setUserDetails] = useState();
   const [userComment, setUserComment] = useState();
   const [comment, setComment] = useState();
-
+  const accessToken = sessionStorage.getItem("accessToken");
+  const currentUserLogin = JWT.read(accessToken).claim.firstName;
+  console.log(currentUserLogin);
   useEffect(() => {
     getUserDetails();
     getUserComment();
@@ -88,21 +90,26 @@ const Details = () => {
         <h6>{`${
           userDetails?.firstName + userDetails?.lastName
         } comments :`}</h6>
-        <ul>
-          {userComment?.map((comment, index) => {
-            const commentId = comment.id;
-            return (
-              <div
-                className="comment-line"
-                key={index}
-                style={{ cursor: "pointer" }}
-              >
-                <li key={index}>{comment.commentBody}</li>
-                <span onClick={() => handleDelete(commentId)}>X</span>
+        {userComment?.map((comment, index) => {
+          const commentId = comment.id;
+          return (
+            <div
+              className="comment-line"
+              key={index}
+              style={{ cursor: "pointer" }}
+            >
+              <span style={{ color: "green", display: "block", width: "100%" }}>
+                {comment.firstName} đã bình luận :
+              </span>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span key={index}> {comment.commentBody}</span>
+                {currentUserLogin == comment.firstName && (
+                  <span onClick={() => handleDelete(commentId)}>X</span>
+                )}
               </div>
-            );
-          })}
-        </ul>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

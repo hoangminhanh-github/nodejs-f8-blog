@@ -1,7 +1,7 @@
 const db = require('../models')
 const bcrypt = require('bcrypt')
 const { sign } = require('jsonwebtoken')
-
+var jwt = require('jsonwebtoken')
 class AccountController {
   // [post] /account/register
   register(req, res, next) {
@@ -23,8 +23,9 @@ class AccountController {
     })
       .then((result) => {
         bcrypt.compare(password, result.password, function (err, allowUser) {
+          console.log('o day ne : ' + firstName)
           if (allowUser) {
-            const accessToken = sign({ firstName: allowUser.userName, id: allowUser.id }, 'important')
+            const accessToken = jwt.sign({ firstName: firstName, id: allowUser.id }, 'important')
             res.json(accessToken)
           } else {
             res.json({ error: 'Password for this account is wrong !!!!' })
