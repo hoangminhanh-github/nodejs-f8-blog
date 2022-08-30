@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import JWT from "jwt-client";
 import "./Details.scss";
 const Details = () => {
@@ -13,7 +13,7 @@ const Details = () => {
   const [userDetails, setUserDetails] = useState();
   const [userComment, setUserComment] = useState();
   const [comment, setComment] = useState();
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
   const currentUserLogin = JWT.read(accessToken).claim.firstName;
   console.log(currentUserLogin);
   useEffect(() => {
@@ -43,7 +43,7 @@ const Details = () => {
         },
         {
           headers: {
-            accessToken: sessionStorage.getItem("accessToken"),
+            accessToken: localStorage.getItem("accessToken"),
           },
         }
       );
@@ -103,7 +103,7 @@ const Details = () => {
               </span>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <span key={index}> {comment.commentBody}</span>
-                {currentUserLogin == comment.firstName && (
+                {currentUserLogin === comment.firstName && (
                   <span onClick={() => handleDelete(commentId)}>X</span>
                 )}
               </div>

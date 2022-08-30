@@ -1,9 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { useEffect } from "react";
 import { useFormik } from "formik";
 const CreateUser = () => {
-  const api = "http://localhost:3001/users/create";
   const createUser = async (values) => {
     console.log(values);
     await axios.post("http://localhost:3001/users/create", values);

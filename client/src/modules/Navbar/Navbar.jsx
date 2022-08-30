@@ -8,7 +8,7 @@ const Navbar = () => {
   const isLogin = useSelector((state) => state.auth.isLogin);
   console.log(isLogin);
   const handleLogout = () => {
-    sessionStorage.removeItem("accessToken");
+    localStorage.removeItem("accessToken");
     dispatch(setUserReduce(false));
     alert("User is logout");
     navigate("/");
@@ -41,7 +41,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="">
               Soon
             </a>
           </li>

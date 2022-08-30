@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "./Login.scss";
 import { setUserReduce } from "../redux/AuthReduce";
@@ -18,7 +18,7 @@ const Login = () => {
       axios.post("http://localhost:3001/account/login", values).then((data) => {
         if (!data.data.error) {
           alert("dang nhap thanh cong");
-          sessionStorage.setItem("accessToken", data.data);
+          localStorage.setItem("accessToken", data.data);
           dispatch(setUserReduce(true));
           navigate("/");
         } else {
@@ -27,6 +27,7 @@ const Login = () => {
       });
     },
   });
+
   return (
     <div className="login mt-4" action="">
       <form method="post" onSubmit={formik.handleSubmit}>

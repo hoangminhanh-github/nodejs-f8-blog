@@ -23,7 +23,6 @@ class AccountController {
     })
       .then((result) => {
         bcrypt.compare(password, result.password, function (err, allowUser) {
-          console.log('o day ne : ' + firstName)
           if (allowUser) {
             const accessToken = jwt.sign({ firstName: firstName, id: allowUser.id }, 'important')
             res.json(accessToken)
@@ -35,6 +34,9 @@ class AccountController {
       .catch((err) => {
         res.json({ error: 'account not found' })
       })
+  }
+  checkLogin(req, res, next) {
+    res.json(req.user)
   }
 }
 

@@ -1,11 +1,4 @@
-import axios from "axios";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CreateUser from "./modules/User/CreateUser";
 import Home from "./modules/Home/Home";
 import Navbar from "./modules/Navbar/Navbar";
@@ -13,8 +6,6 @@ import Details from "./modules/User/Details";
 import Login from "./modules/Auth/Login/Login";
 import Register from "./modules/Auth/Regsiter/Register";
 import "./App.css";
-import store from "./redux/Store";
-import { Provider } from "react-redux";
 import { useSelector } from "react-redux";
 function App() {
   const isLogin = useSelector((state) => state.auth.isLogin);
