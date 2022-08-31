@@ -1,9 +1,8 @@
 import axios from "axios";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import JWT from "jwt-client";
+
 import "./Details.scss";
 const Details = () => {
   const { slug } = useParams();
@@ -12,7 +11,7 @@ const Details = () => {
 
   const [userDetails, setUserDetails] = useState();
   const [userComment, setUserComment] = useState();
-  const [comment, setComment] = useState();
+  const [comment, setComment] = useState("");
   const accessToken = localStorage.getItem("accessToken");
   const currentUserLogin = JWT.read(accessToken).claim.firstName;
   console.log(currentUserLogin);
@@ -63,55 +62,62 @@ const Details = () => {
     });
     await getUserComment();
   };
+
   return (
-    <div className="container">
-      <div className="card">
-        <div className="card-body">
-          <span>User Name : </span>
-          <h5 className="card-title">
-            {userDetails?.firstName} {userDetails?.lastName}
-          </h5>
-          <span>Email : </span>
-          <p className="card-text">{userDetails?.email}</p>
+    <>
+      <div className="container">
+        <div className="card">
+          <div className="card-body">
+            <span>User Name : </span>
+            <h5 className="card-title">
+              {userDetails?.firstName} {userDetails?.lastName}
+            </h5>
+            <span>Email : </span>
+            <p className="card-text">{userDetails?.email}</p>
+          </div>
+        </div>
+        <div className="comments">
+          <form className="comments-write" onSubmit={(e) => handleSubmit(e)}>
+            <div>Write your comment </div>
+            <input
+              type="text"
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value);
+              }}
+            />
+            <button type="submit">Enter</button>
+          </form>
+          <h6>{`${
+            userDetails?.firstName + userDetails?.lastName
+          } comments :`}</h6>
+          {userComment?.map((comment, index) => {
+            const commentId = comment.id;
+            return (
+              <div
+                className="comment-line"
+                key={index}
+                style={{ cursor: "pointer" }}
+              >
+                <span
+                  style={{ color: "green", display: "block", width: "100%" }}
+                >
+                  {comment.firstName} đã bình luận :
+                </span>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <span key={index}> {comment.commentBody}</span>
+                  {currentUserLogin === comment.firstName && (
+                    <span onClick={() => handleDelete(commentId)}>X</span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div className="comments">
-        <form className="comments-write" onSubmit={(e) => handleSubmit(e)}>
-          <div>Write your comment </div>
-          <input
-            type="text"
-            value={comment}
-            onChange={(e) => {
-              setComment(e.target.value);
-            }}
-          />
-          <button type="submit">Enter</button>
-        </form>
-        <h6>{`${
-          userDetails?.firstName + userDetails?.lastName
-        } comments :`}</h6>
-        {userComment?.map((comment, index) => {
-          const commentId = comment.id;
-          return (
-            <div
-              className="comment-line"
-              key={index}
-              style={{ cursor: "pointer" }}
-            >
-              <span style={{ color: "green", display: "block", width: "100%" }}>
-                {comment.firstName} đã bình luận :
-              </span>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span key={index}> {comment.commentBody}</span>
-                {currentUserLogin === comment.firstName && (
-                  <span onClick={() => handleDelete(commentId)}>X</span>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </>
   );
 };
 

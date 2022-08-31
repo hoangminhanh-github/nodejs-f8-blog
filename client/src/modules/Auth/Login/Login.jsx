@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 import "./Login.scss";
 import { setUserReduce } from "../redux/AuthReduce";
+import { useEffect } from "react";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +28,6 @@ const Login = () => {
       });
     },
   });
-
   return (
     <div className="login mt-4" action="">
       <form method="post" onSubmit={formik.handleSubmit}>

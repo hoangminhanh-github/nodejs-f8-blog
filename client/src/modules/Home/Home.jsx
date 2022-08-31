@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import "./Home.scss";
 import { Link } from "react-router-dom";
+import Modal from "../../common/Modal/Modal";
 const Home = () => {
   const [users, setUsers] = useState();
   useEffect(() => {

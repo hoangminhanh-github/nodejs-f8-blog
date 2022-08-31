@@ -6,7 +6,6 @@ const Navbar = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.auth.isLogin);
-  console.log(isLogin);
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     dispatch(setUserReduce(false));
