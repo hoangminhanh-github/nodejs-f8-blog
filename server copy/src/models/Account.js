@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   })
-  // Account.associate = (models) => {
-  //   Account.hasMany(models.Users, {
-  //     onDelete: 'cascade',
-  //   })
-  // }
+  Account.associate = (models) => {
+    Account.hasMany(models.Likes, {
+      onDelete: 'cascade',
+    })
+  }
   return Account
 }

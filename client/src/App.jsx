@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import JWT from "jwt-client";
+
 import CreateUser from "./modules/User/CreateUser";
 import Home from "./modules/Home/Home";
 import Navbar from "./modules/Navbar/Navbar";
 import Details from "./modules/User/Details";
 import Login from "./modules/Auth/Login/Login";
 import Register from "./modules/Auth/Regsiter/Register";
-import "./App.css";
-import { useSelector, useDispatch } from "react-redux";
 import { setUserReduce } from "./modules/Auth/redux/AuthReduce";
+import "./App.css";
 function App() {
   const dispatch = useDispatch();
+  const accessToken = localStorage.getItem("accessToken");
+  var userName = JWT.read(accessToken).claim.firstName;
   // xem user đã login trong lần đầu truy cập app chưa
   useEffect(() => {
     const checkIsLogin = () => {
@@ -23,10 +27,9 @@ function App() {
         })
         .then((results) => {
           if (results.data.error) {
-            dispatch(setUserReduce(false));
+            dispatch(setUserReduce({ isLogin: false }));
           } else {
-            alert("Chào mừng bạn đã quay trở lại");
-            dispatch(setUserReduce(true));
+            dispatch(setUserReduce({ isLogin: true, user: userName }));
           }
         })
         .catch(() => {

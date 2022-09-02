@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import JWT from "jwt-client";
+import { AiFillLike } from "react-icons/ai";
 
 import "./Details.scss";
 const Details = () => {
@@ -11,6 +12,7 @@ const Details = () => {
 
   const [userDetails, setUserDetails] = useState();
   const [userComment, setUserComment] = useState();
+  const [likeCount, setLikeCount] = useState(0);
   const [comment, setComment] = useState("");
   const accessToken = localStorage.getItem("accessToken");
   const currentUserLogin = JWT.read(accessToken).claim.firstName;
@@ -29,7 +31,7 @@ const Details = () => {
     const res = await axios.get(`http://localhost:3001/comment/${id}`);
     setUserComment(res.data);
   };
-
+  // submit comment
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,6 +55,7 @@ const Details = () => {
       setComment("");
     }
   };
+  // delete comment
   const handleDelete = async (commentId) => {
     await axios.delete(`http://localhost:3001/comment/delete`, {
       data: {
@@ -62,7 +65,15 @@ const Details = () => {
     });
     await getUserComment();
   };
-
+  useEffect(() => {
+    const getLiked = () => {
+      axios.get(`http://localhost:3001/likes?userId=${id}`).then((data) => {
+        setLikeCount(data.data.length);
+      });
+    };
+    getLiked();
+  }, []);
+  const handleLike = () => {};
   return (
     <>
       <div className="container">
@@ -74,6 +85,11 @@ const Details = () => {
             </h5>
             <span>Email : </span>
             <p className="card-text">{userDetails?.email}</p>
+          </div>
+          {/*  */}
+          <div>
+            <AiFillLike onClick={handleLike}></AiFillLike>
+            <span>{likeCount}</span>
           </div>
         </div>
         <div className="comments">
