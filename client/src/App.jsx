@@ -15,26 +15,31 @@ import "./App.css";
 function App() {
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem("accessToken");
-  var userName = JWT.read(accessToken).claim.firstName;
+  var userName;
+  if (accessToken) {
+    userName = JWT.read(accessToken).claim.firstName;
+  }
   // xem user đã login trong lần đầu truy cập app chưa
   useEffect(() => {
     const checkIsLogin = () => {
-      axios
-        .post("http://localhost:3001/account/check-login", {
-          headers: {
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        })
-        .then((results) => {
-          if (results.data.error) {
-            dispatch(setUserReduce({ isLogin: false }));
-          } else {
-            dispatch(setUserReduce({ isLogin: true, user: userName }));
-          }
-        })
-        .catch(() => {
-          dispatch(setUserReduce(false));
-        });
+      if (userName) {
+        axios
+          .post("http://localhost:3001/account/check-login", {
+            headers: {
+              accessToken: localStorage.getItem("accessToken"),
+            },
+          })
+          .then((results) => {
+            if (results.data.error) {
+              dispatch(setUserReduce({ isLogin: false }));
+            } else {
+              dispatch(setUserReduce({ isLogin: true, user: userName }));
+            }
+          })
+          .catch(() => {
+            dispatch(setUserReduce(false));
+          });
+      }
     };
     checkIsLogin();
   }, []);

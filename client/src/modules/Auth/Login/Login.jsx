@@ -20,7 +20,7 @@ const Login = () => {
         if (!data.data.error) {
           alert("dang nhap thanh cong");
           localStorage.setItem("accessToken", data.data);
-          dispatch(setUserReduce(true));
+          dispatch(setUserReduce({ isLogin: true }));
           navigate("/");
         } else {
           alert(data.data.error);

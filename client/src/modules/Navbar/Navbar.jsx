@@ -8,7 +8,7 @@ const Navbar = () => {
   const isLogin = useSelector((state) => state.auth.isLogin);
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
-    dispatch(setUserReduce(false));
+    dispatch(setUserReduce({ isLogin: false }));
     alert("User is logout");
     navigate("/");
   };
