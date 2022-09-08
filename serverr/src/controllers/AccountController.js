@@ -24,7 +24,7 @@ class AccountController {
       .then((result) => {
         bcrypt.compare(password, result.password, function (err, allowUser) {
           if (allowUser) {
-            const accessToken = jwt.sign({ firstName: firstName, id: allowUser.id }, 'important')
+            const accessToken = jwt.sign({ firstName: firstName, id: result.id }, 'important')
             res.json(accessToken)
           } else {
             res.json({ error: 'Password for this account is wrong !!!!' })

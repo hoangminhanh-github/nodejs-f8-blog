@@ -9,7 +9,7 @@ const validateToken = (req, res, next) => {
   try {
     const validToken = jwt.verify(accessToken, 'important')
     console.log(validToken)
-    req.user = validToken.firstName
+    req.user = validToken
     if (validToken) {
       return next()
     }

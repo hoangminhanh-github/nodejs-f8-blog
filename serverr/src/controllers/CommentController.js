@@ -20,7 +20,7 @@ class CommentController {
   create(req, res, next) {
     const comment = req.body.comment
     const userId = req.body.id
-    const firstName = req.user
+    const firstName = req.user.firstName
     console.log(firstName)
     db.Comments.create({
       commentBody: comment,

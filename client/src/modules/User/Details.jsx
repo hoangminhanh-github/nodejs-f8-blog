@@ -16,7 +16,6 @@ const Details = () => {
   const [comment, setComment] = useState("");
   const accessToken = localStorage.getItem("accessToken");
   const currentUserLogin = JWT.read(accessToken).claim.firstName;
-  console.log(currentUserLogin);
   useEffect(() => {
     getUserDetails();
     getUserComment();
@@ -73,7 +72,21 @@ const Details = () => {
     };
     getLiked();
   }, []);
-  const handleLike = () => {};
+  const handleLike = () => {
+    axios
+      .post(
+        `http://localhost:3001/likes/liked`,
+        { userId: id },
+        {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      )
+      .then((data) => {
+        console.log(data.data);
+      });
+  };
   return (
     <>
       <div className="container">

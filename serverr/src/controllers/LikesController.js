@@ -15,12 +15,15 @@ class LikesController {
         res.json({ error: "user don't have any like !!" })
       })
   }
+  // [post] middleware Auth --> /likes/liked
   liked(req, res, next) {
-    const { userId, accountId } = req.body
-    db.Likes.create({
-      UserId: userId,
-      AccountId: accountId,
-    })
+    const { userId } = req.body
+    const accountId = req.user.id
+    // db.Likes.create({
+    //   UserId: userId,
+    //   AccountId: accountId,
+    // })
+    res.json({ userId, accountId })
   }
 }
 
