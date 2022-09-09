@@ -19,11 +19,25 @@ class LikesController {
   liked(req, res, next) {
     const { userId } = req.body
     const accountId = req.user.id
-    // db.Likes.create({
-    //   UserId: userId,
-    //   AccountId: accountId,
-    // })
-    res.json({ userId, accountId })
+    db.Likes.findAll({
+      where: {
+        UserId: userId,
+        AccountId: accountId,
+      },
+    }).then((isDefine) => {
+      if (isDefine.length !== 0) {
+        // db.Likes.destroy(...isDefine)
+        res.json(isDefine)
+      }
+      if (isDefine.length == 0) {
+        db.Likes.create({
+          UserId: userId,
+          AccountId: accountId,
+        }).then((data) => {
+          res.json(data)
+        })
+      }
+    })
   }
 }
 

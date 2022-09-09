@@ -3,8 +3,9 @@ import axios from "axios";
 import { useEffect } from "react";
 import "./Home.scss";
 import { Link } from "react-router-dom";
-import Modal from "../../common/Modal/Modal";
+import { useSelector } from "react-redux";
 const Home = () => {
+  const isLogin = useSelector((state) => state.auth.isLogin);
   const [users, setUsers] = useState();
   useEffect(() => {
     getUser();
@@ -23,7 +24,10 @@ const Home = () => {
             <div className="card-body">
               <h5 className="card-title">{user.firstName + user.lastName}</h5>
               <p className="card-text">{user.email}</p>
-              <Link to={`users/:${user.id}`} className="btn btn-primary">
+              <Link
+                to={isLogin ? `users/:${user.id}` : "/auth/login"}
+                className="btn btn-primary"
+              >
                 Go
               </Link>
             </div>

@@ -64,14 +64,16 @@ const Details = () => {
     });
     await getUserComment();
   };
+  // func get like count
+  const getLiked = () => {
+    axios.get(`http://localhost:3001/likes?userId=${id}`).then((data) => {
+      setLikeCount(data.data.length);
+    });
+  };
   useEffect(() => {
-    const getLiked = () => {
-      axios.get(`http://localhost:3001/likes?userId=${id}`).then((data) => {
-        setLikeCount(data.data.length);
-      });
-    };
     getLiked();
   }, []);
+  // handle liked
   const handleLike = () => {
     axios
       .post(
@@ -83,8 +85,8 @@ const Details = () => {
           },
         }
       )
-      .then((data) => {
-        console.log(data.data);
+      .then(() => {
+        getLiked();
       });
   };
   return (
