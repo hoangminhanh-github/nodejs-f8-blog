@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import "./Home.scss";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { AiFillHeart } from "react-icons/ai";
+
+import "./Home.scss";
 const Home = () => {
   const isLogin = useSelector((state) => state.auth.isLogin);
   const [users, setUsers] = useState();
@@ -14,7 +16,7 @@ const Home = () => {
     const res = await axios.get("http://localhost:3001/");
     setUsers(res.data);
   };
-
+  console.log(users);
   return (
     <>
       <div>This is Home !!</div>
@@ -30,6 +32,9 @@ const Home = () => {
               >
                 Go
               </Link>
+              <div className="like">
+                {user.Likes.length} <AiFillHeart className="icon"></AiFillHeart>
+              </div>
             </div>
           </div>
         ))}

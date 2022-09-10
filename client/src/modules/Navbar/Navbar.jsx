@@ -2,13 +2,16 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserReduce } from "../Auth/redux/AuthReduce";
+import { AiOutlineUser } from "react-icons/ai";
 const Navbar = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.auth.isLogin);
+  const userName = useSelector((state) => state.auth.user);
+
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
-    dispatch(setUserReduce({ isLogin: false }));
+    dispatch(setUserReduce({ isLogin: false, user: "" }));
     alert("User is logout");
     navigate("/");
   };
@@ -57,7 +60,12 @@ const Navbar = () => {
             </button>
           </>
         ) : (
-          <>
+          <div
+            className="nav-right"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <span>{userName}</span>
+            <AiOutlineUser />
             <button
               className="btn"
               style={{ backgroundColor: "transparent" }}
@@ -65,7 +73,7 @@ const Navbar = () => {
             >
               logout
             </button>
-          </>
+          </div>
         )}
       </div>
     </nav>

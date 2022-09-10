@@ -5,4 +5,11 @@
     width: 500px;
     height: 300px;
   }
+  .like {
+    display: flex;
+    align-items: center;
+    .icon {
+      color: rgb(255, 0, 0);
+    }
+  }
 }
