@@ -14,8 +14,10 @@ const Details = () => {
   const [userComment, setUserComment] = useState();
   const [likeCount, setLikeCount] = useState(0);
   const [comment, setComment] = useState("");
+  const [isLike, setIsLike] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
   const currentUserLogin = JWT.read(accessToken).claim.firstName;
+  const accountId = JWT.read(accessToken).claim.id;
   useEffect(() => {
     getUserDetails();
     getUserComment();
@@ -67,6 +69,11 @@ const Details = () => {
   // func get like count
   const getLiked = () => {
     axios.get(`http://localhost:3001/likes?userId=${id}`).then((data) => {
+      const isLike = data.data.some((like) => {
+        return like.AccountId === accountId;
+      });
+      setIsLike(isLike);
+      // console.log(data.data);
       setLikeCount(data.data.length);
     });
   };
@@ -74,20 +81,17 @@ const Details = () => {
     getLiked();
   }, []);
   // handle liked
-  const handleLike = () => {
-    axios
-      .post(
-        `http://localhost:3001/likes/liked`,
-        { userId: id },
-        {
-          headers: {
-            accessToken: localStorage.getItem("accessToken"),
-          },
-        }
-      )
-      .then(() => {
-        getLiked();
-      });
+  const handleLike = async () => {
+    await axios.post(
+      `http://localhost:3001/likes/liked`,
+      { userId: id },
+      {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }
+    );
+    await getLiked();
   };
   return (
     <>
@@ -103,7 +107,10 @@ const Details = () => {
           </div>
           {/*  */}
           <div>
-            <AiFillLike onClick={handleLike}></AiFillLike>
+            <AiFillLike
+              onClick={handleLike}
+              className={isLike ? "liked" : ""}
+            ></AiFillLike>
             <span>{likeCount}</span>
           </div>
         </div>

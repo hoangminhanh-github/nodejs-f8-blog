@@ -25,16 +25,21 @@ class LikesController {
         AccountId: accountId,
       },
     }).then((isDefine) => {
-      if (isDefine.length !== 0) {
-        // db.Likes.destroy(...isDefine)
-        res.json(isDefine)
-      }
       if (isDefine.length == 0) {
         db.Likes.create({
           UserId: userId,
           AccountId: accountId,
         }).then((data) => {
           res.json(data)
+        })
+      } else {
+        db.Likes.destroy({
+          where: {
+            UserId: userId,
+            AccountId: accountId,
+          },
+        }).then(() => {
+          res.json('delete')
         })
       }
     })
