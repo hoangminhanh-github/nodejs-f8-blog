@@ -16,7 +16,6 @@ const Home = () => {
     const res = await axios.get("http://localhost:3001/");
     setUsers(res.data);
   };
-  console.log(users);
   return (
     <>
       <div>This is Home !!</div>

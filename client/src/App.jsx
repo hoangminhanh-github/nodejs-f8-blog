@@ -10,7 +10,9 @@ import Navbar from "./modules/Navbar/Navbar";
 import Details from "./modules/User/Details";
 import Login from "./modules/Auth/Login/Login";
 import Register from "./modules/Auth/Regsiter/Register";
+import Store from "./modules/me/Store/Store";
 import { setUserReduce } from "./modules/Auth/redux/AuthReduce";
+import NotFoundPage from "./modules/Home/NotFoundPage/NotFoundPage";
 import "./App.css";
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +62,10 @@ function App() {
           <Route path="/users/:slug" element={<Details></Details>}></Route>
           <Route path="/auth/login" element={<Login></Login>}></Route>
           <Route path="/users/register" element={<Register></Register>}></Route>
+          <Route path="/me/store" element={<Store></Store>}></Route>
+
+          <Route path="*" exact element={<NotFoundPage></NotFoundPage>}></Route>
+
           <Route path="/" exact element={<Home></Home>}></Route>
         </Routes>
       </Router>
