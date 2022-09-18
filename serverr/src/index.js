@@ -24,3 +24,4 @@ db.sequelize.sync().then(() => {
     console.log('Server is running om port 3001')
   })
 })
+// { alter: true }

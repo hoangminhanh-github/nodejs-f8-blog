@@ -3,8 +3,9 @@ const db = require('../models/index')
 const UserController = require('../controllers/UsersController')
 const router = express.Router()
 
-router.get('/create', UserController.create)
+router.post('/create', UserController.create)
 router.get('/:id/details', UserController.details)
+router.delete('/delete', UserController.delete)
 router.get('/', UserController.index)
 
 module.exports = router

@@ -63,7 +63,6 @@ function App() {
           <Route path="/auth/login" element={<Login></Login>}></Route>
           <Route path="/users/register" element={<Register></Register>}></Route>
           <Route path="/me/store" element={<Store></Store>}></Route>
-
           <Route path="*" exact element={<NotFoundPage></NotFoundPage>}></Route>
 
           <Route path="/" exact element={<Home></Home>}></Route>

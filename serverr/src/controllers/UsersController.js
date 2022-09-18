@@ -26,6 +26,15 @@ class UserController {
         res.json(err)
       })
   }
+  delete(req, res, next) {
+    db.Users.destroy({
+      where: {
+        id: req.body.id,
+      },
+    }).then((data) => {
+      res.json(data)
+    })
+  }
   // [get] /users
   index(req, res, next) {
     res.json('this is users')

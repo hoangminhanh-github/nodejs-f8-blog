@@ -3,11 +3,11 @@ import axios from "axios";
 import { BsTrashFill } from "react-icons/bs";
 
 const Store = () => {
-  const [info, setInfo] = useState();
+  const [trashInfo, setTrashInfo] = useState();
 
   const getInfo = async () => {
     const res = await axios.get("http://localhost:3001/");
-    setInfo(res.data);
+    setTrashInfo(res.data);
   };
   useEffect(() => {
     getInfo();
@@ -16,15 +16,15 @@ const Store = () => {
   const handleChange = (e) => {
     const { name, checked } = e.target;
     if (name === "allSelect") {
-      let tempUser = info?.map((user) => {
+      let tempUser = trashInfo?.map((user) => {
         return { ...user, isChecked: checked };
       });
-      setInfo(tempUser);
+      setTrashInfo(tempUser);
     } else {
-      let tempUser = info?.map((user) =>
+      let tempUser = trashInfo?.map((user) =>
         user.firstName === name ? { ...user, isChecked: checked } : user
       );
-      setInfo(tempUser);
+      setTrashInfo(tempUser);
     }
   };
   const handleDelete = async (id) => {
@@ -40,7 +40,7 @@ const Store = () => {
       <input
         className="checkAllBtn"
         type="checkbox"
-        checked={!info?.some((user) => user?.isChecked !== true)}
+        checked={!trashInfo?.some((user) => user?.isChecked !== true)}
         onChange={handleChange}
         name="allSelect"
       />
@@ -56,10 +56,10 @@ const Store = () => {
           </tr>
         </thead>
         <tbody>
-          {info?.map((item, index) => (
+          {trashInfo?.map((item, index) => (
             <tr key={index}>
               <th scope="row">
-                {info.indexOf(item) + 1}
+                {trashInfo.indexOf(item) + 1}
                 <input
                   name={item.firstName}
                   type="checkbox"

@@ -1,19 +1,27 @@
 const db = require('./index')
-module.exports = (sequelize, DataTypes) => {
-  const Users = sequelize.define('Users', {
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
+module.exports = (sequelize, DataTypes, Model) => {
+  const Users = sequelize.define(
+    'Users',
+    {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lastName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
     },
-    lastName: {
-      allowNull: false,
-      type: DataTypes.STRING,
+    {
+      paranoid: true,
+      timestamps: true,
     },
-    email: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-  })
+  )
+
   Users.associate = (models) => {
     Users.hasMany(models.Comments, {
       onDelete: 'cascade',
@@ -22,5 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
     })
   }
+
   return Users
 }

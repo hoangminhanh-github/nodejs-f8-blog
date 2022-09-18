@@ -36,8 +36,7 @@ class CommentController {
   delete(req, res, next) {
     const commentId = req.body.commentId
     const userId = req.body.userId
-    console.log(commentId)
-    console.log(userId)
+
     db.Comments.destroy({
       where: {
         UserId: userId,
