@@ -18,7 +18,9 @@ const Modal = ({ onClick }) => {
             data-dismiss="modal"
             aria-label="Close"
           >
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true" onClick={() => setIsOpen(false)}>
+              &times;
+            </span>
           </button>
         </div>
         <div class="modal-body">
@@ -32,7 +34,12 @@ const Modal = ({ onClick }) => {
           >
             Save changes
           </button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            onClick={() => setIsOpen(false)}
+          >
             Close
           </button>
         </div>

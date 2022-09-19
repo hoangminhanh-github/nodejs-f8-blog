@@ -26,15 +26,32 @@ class UserController {
         res.json(err)
       })
   }
+  // [delete] /users/delete
   delete(req, res, next) {
+    const isForce = req.body.force
+    console.log(req.body.id)
+    console.log(isForce)
     db.Users.destroy({
       where: {
         id: req.body.id,
+      },
+      force: isForce,
+    }).then((data) => {
+      res.json(data)
+    })
+  }
+  //[patch] users/re-store
+  reStore(req, res, next) {
+    const id = req.body.params.id
+    db.Users.restore({
+      where: {
+        id: id,
       },
     }).then((data) => {
       res.json(data)
     })
   }
+
   // [get] /users
   index(req, res, next) {
     res.json('this is users')

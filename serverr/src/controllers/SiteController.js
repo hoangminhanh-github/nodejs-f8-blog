@@ -1,12 +1,33 @@
 const db = require('../models')
+const { Op } = require('sequelize')
 class SiteController {
   // [get] /
-  index(req, res, next) {
-    db.Users.findAll({
-      include: db.Likes,
-    }).then((data) => {
-      res.json(data)
+  async index(req, res, next) {
+    const isParanoid = req.query.paranoid
+    const amount = await db.Users.count({
+      where: {
+        deletedAt: null,
+      },
     })
+    if (isParanoid) {
+      db.Users.findAll({
+        where: {
+          deletedAt: {
+            [Op.not]: null,
+          },
+        },
+        include: db.Likes,
+        paranoid: false,
+      }).then((data) => {
+        res.json(data)
+      })
+    } else {
+      db.Users.findAll({
+        include: db.Likes,
+      }).then((data) => {
+        res.json(data)
+      })
+    }
   }
   // [get] /search
 }

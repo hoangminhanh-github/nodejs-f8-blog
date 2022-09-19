@@ -1,0 +1,28 @@
+.store__container {
+  &-header {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    max-width: 260px;
+    justify-content: space-between;
+    align-items: center;
+    input {
+    }
+    select {
+      display: flex;
+      align-items: center;
+      height: 24px;
+      width: 125px;
+      font-size: 14px;
+      border-radius: 3px;
+    }
+    button {
+      border-radius: 8px;
+      background-color: greenyellow;
+      border-color: transparent;
+      height: 26px;
+      line-height: 21px;
+      font-size: 12px;
+    }
+  }
+}

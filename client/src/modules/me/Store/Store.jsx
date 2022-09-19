@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BsTrashFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { useFormik } from "formik";
 
+import Model from "../../../common/Modal/Modal";
+import "./Store.scss";
 const Store = () => {
   const [info, setInfo] = useState();
-
+  const [isModel, setIsModel] = useState(false);
   const getInfo = async () => {
     const res = await axios.get("http://localhost:3001/");
     setInfo(res.data);
@@ -14,20 +18,21 @@ const Store = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, checked } = e.target;
-    if (name === "allSelect") {
+    const { id, checked } = e.target;
+    if (id === "allSelect") {
       let tempUser = info?.map((user) => {
         return { ...user, isChecked: checked };
       });
       setInfo(tempUser);
     } else {
-      let tempUser = info?.map((user) =>
-        user.firstName === name ? { ...user, isChecked: checked } : user
-      );
+      let tempUser = info?.map((user) => {
+        return user.id == id ? { ...user, isChecked: checked } : user;
+      });
       setInfo(tempUser);
     }
   };
   const handleDelete = async (id) => {
+    setIsModel(true);
     await axios.delete(`http://localhost:3001/users/delete`, {
       data: {
         id: id,
@@ -35,16 +40,52 @@ const Store = () => {
     });
     await getInfo();
   };
-  return (
-    <>
-      <input
-        className="checkAllBtn"
-        type="checkbox"
-        checked={!info?.some((user) => user?.isChecked !== true)}
-        onChange={handleChange}
-        name="allSelect"
-      />
 
+  // formik handle
+  const formik = useFormik({
+    initialValues: {
+      action: "",
+      elements: [],
+    },
+    onSubmit: async (values) => {
+      let valuesArr = values.elements;
+      if (valuesArr.includes("all")) {
+        valuesArr.splice("all");
+        info.forEach((item) => {
+          return valuesArr.push(item.id);
+        });
+      }
+      await axios.delete("http://localhost:3001/users/delete", {
+        data: {
+          id: values.elements,
+        },
+      });
+      await getInfo();
+    },
+  });
+
+  return (
+    <form onSubmit={formik.handleSubmit} className="store__container">
+      <div className="store__container-header">
+        <input
+          className="checkAllBtn"
+          type="checkbox"
+          checked={!info?.some((user) => user?.isChecked !== true)}
+          onChange={(e) => {
+            handleChange(e);
+            formik.handleChange(e);
+          }}
+          id="allSelect"
+          name="elements"
+          value="all"
+        />
+        <select name="action" id="" onChange={formik.handleChange}>
+          <option value="">---choose active---</option>
+          <option value="delete">--Delete--</option>
+          <option value="">--Soon--</option>
+        </select>
+        <button type="submit">Thực hiện</button>
+      </div>
       <table className="table">
         <thead>
           <tr>
@@ -61,11 +102,16 @@ const Store = () => {
               <th scope="row">
                 {info.indexOf(item) + 1}
                 <input
-                  name={item.firstName}
+                  id={item.id}
+                  value={item.id}
+                  name="elements"
                   type="checkbox"
                   className="checkboxInput"
                   checked={item?.isChecked || false}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    handleChange(e);
+                    formik.handleChange(e);
+                  }}
                 ></input>
               </th>
               <td>{` ${item.firstName} ${item.lastName}`}</td>
@@ -80,7 +126,9 @@ const Store = () => {
           ))}
         </tbody>
       </table>
-    </>
+      <Link to="/me/trash-store">Thùng rác</Link>
+      {isModel && <Model></Model>}
+    </form>
   );
 };
 
