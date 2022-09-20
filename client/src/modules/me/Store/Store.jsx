@@ -32,13 +32,16 @@ const Store = () => {
     }
   };
   const handleDelete = async (id) => {
-    setIsModel(true);
-    await axios.delete(`http://localhost:3001/users/delete`, {
-      data: {
-        id: id,
-      },
-    });
-    await getInfo();
+    if (window.confirm(`Delete user id ${id}`)) {
+      await axios.delete(`http://localhost:3001/users/delete`, {
+        data: {
+          id: id,
+        },
+      });
+      await getInfo();
+    } else {
+      // Do nothing!
+    }
   };
 
   // formik handle
@@ -52,20 +55,27 @@ const Store = () => {
       if (valuesArr.includes("all")) {
         valuesArr.splice("all");
         info.forEach((item) => {
-          return valuesArr.push(item.id);
+          if (item.isChecked) {
+            return valuesArr.push(item.id);
+          }
         });
       }
-      await axios.delete("http://localhost:3001/users/delete", {
-        data: {
-          id: values.elements,
-        },
-      });
-      await getInfo();
+      if (window.confirm(`Delete multi`)) {
+        await axios.delete("http://localhost:3001/users/delete", {
+          data: {
+            id: values.elements,
+          },
+        });
+        await getInfo();
+      } else {
+        // Do nothing!
+      }
     },
   });
 
   return (
     <form onSubmit={formik.handleSubmit} className="store__container">
+      <h3>store</h3>
       <div className="store__container-header">
         <input
           className="checkAllBtn"
@@ -127,7 +137,6 @@ const Store = () => {
         </tbody>
       </table>
       <Link to="/me/trash-store">Thùng rác</Link>
-      {isModel && <Model></Model>}
     </form>
   );
 };

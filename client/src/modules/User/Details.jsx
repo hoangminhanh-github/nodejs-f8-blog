@@ -98,12 +98,17 @@ const Details = () => {
       <div className="container">
         <div className="card">
           <div className="card-body">
-            <span>User Name : </span>
-            <h5 className="card-title">
-              {userDetails?.firstName} {userDetails?.lastName}
-            </h5>
-            <span>Email : </span>
-            <p className="card-text">{userDetails?.email}</p>
+            <div style={{ maxWidth: "50px", maxHeight: "50px" }}>
+              <img src={userDetails?.avatar} alt="" />
+            </div>
+            <div>
+              <span>User Name : </span>
+              <h5 className="card-title">
+                {userDetails?.firstName} {userDetails?.lastName}
+              </h5>
+              <span>Email : </span>
+              <p className="card-text">{userDetails?.email}</p>
+            </div>
           </div>
           {/*  */}
           <div>
