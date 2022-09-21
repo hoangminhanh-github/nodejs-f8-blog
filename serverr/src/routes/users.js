@@ -5,6 +5,7 @@ const router = express.Router()
 router.post('/create', UserController.create)
 router.get('/:id/details', UserController.details)
 router.patch('/restore', UserController.reStore)
+router.patch('/edit', UserController.edit)
 router.delete('/delete', UserController.delete)
 router.get('/', UserController.index)
 

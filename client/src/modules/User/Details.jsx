@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import JWT from "jwt-client";
 import { AiFillLike } from "react-icons/ai";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/splide/dist/css/splide.min.css";
 
 import "./Details.scss";
 const Details = () => {
@@ -93,20 +95,42 @@ const Details = () => {
     );
     await getLiked();
   };
+  console.log(userDetails?.UserImages);
   return (
     <>
       <div className="container">
         <div className="card">
           <div className="card-body">
-            <div style={{ maxWidth: "50px", maxHeight: "50px" }}>
-              <img src={userDetails?.avatar} alt="" />
+            <div className="card-body__image">
+              <Splide
+                options={{
+                  // type: "loop",
+                  height: "160px",
+                  // rewind: true,
+                  perPage: 3,
+                  drag: true,
+                  gap: "3rem",
+                  flickPower: 100,
+                  arrows: false,
+                  width: "100%",
+                  pagination: false,
+                }}
+              >
+                {userDetails?.UserImages.map((item, index) => (
+                  <SplideSlide>
+                    <div className="card-body__image-item">
+                      <img src={item.image} key={index} alt="" />
+                    </div>
+                  </SplideSlide>
+                ))}
+              </Splide>
             </div>
-            <div>
-              <span>User Name : </span>
+            <div className="card-body__info">
+              <span>Name </span>
               <h5 className="card-title">
                 {userDetails?.firstName} {userDetails?.lastName}
               </h5>
-              <span>Email : </span>
+              <span>Email </span>
               <p className="card-text">{userDetails?.email}</p>
             </div>
           </div>

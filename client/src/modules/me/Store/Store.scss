@@ -25,4 +25,15 @@
       font-size: 12px;
     }
   }
+  .table {
+    td {
+      .icons {
+        font-size: 20px;
+        color: black;
+        margin-right: 16px;
+        &:hover {
+        }
+      }
+    }
+  }
 }

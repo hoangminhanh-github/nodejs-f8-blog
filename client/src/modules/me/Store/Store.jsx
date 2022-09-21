@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BsTrashFill } from "react-icons/bs";
+import { AiFillEdit } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import moment from "moment";
 
 import Model from "../../../common/Modal/Modal";
 import "./Store.scss";
@@ -126,9 +128,15 @@ const Store = () => {
               </th>
               <td>{` ${item.firstName} ${item.lastName}`}</td>
               <td>{item.email}</td>
-              <td>{item.updatedAt}</td>
+              {/*  */}
+              {/* <td>{item.updatedAt}</td> */}
+              <td>{moment(item.updatedAt).format("ll")}</td>
               <td>
+                <Link to={`/me/store/edit/${item.id}`}>
+                  <AiFillEdit className="icons"></AiFillEdit>
+                </Link>
                 <BsTrashFill
+                  className="icons"
                   onClick={() => handleDelete(item.id)}
                 ></BsTrashFill>
               </td>

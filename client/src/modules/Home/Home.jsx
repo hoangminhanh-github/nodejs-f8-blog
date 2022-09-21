@@ -4,9 +4,12 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AiFillHeart } from "react-icons/ai";
+import { useDispatch } from "react-redux";
 
+import { setUserListReduce } from "./redux/UserListReduce";
 import "./Home.scss";
 const Home = () => {
+  const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.auth.isLogin);
   const [users, setUsers] = useState();
   useEffect(() => {
@@ -14,7 +17,8 @@ const Home = () => {
   }, []);
   const getUser = async () => {
     const res = await axios.get("http://localhost:3001/");
-    setUsers(res.data);
+    await dispatch(setUserListReduce(res.data));
+    await setUsers(res.data);
   };
   return (
     <>

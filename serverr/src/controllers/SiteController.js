@@ -16,14 +16,14 @@ class SiteController {
             [Op.not]: null,
           },
         },
-        include: db.Likes,
+        include: [db.Likes, db.UserImages],
         paranoid: false,
       }).then((data) => {
         res.json(data)
       })
     } else {
       db.Users.findAll({
-        include: db.Likes,
+        include: [db.Likes, db.UserImages],
       }).then((data) => {
         res.json(data)
       })

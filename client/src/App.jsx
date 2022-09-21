@@ -11,9 +11,10 @@ import Details from "./modules/User/Details";
 import Login from "./modules/Auth/Login/Login";
 import Register from "./modules/Auth/Regsiter/Register";
 import Store from "./modules/me/Store/Store";
-import { setUserReduce } from "./modules/Auth/redux/AuthReduce";
 import NotFoundPage from "./modules/Home/NotFoundPage/NotFoundPage";
 import TrashStore from "./modules/me/Store/TrashhStore";
+import UserEdit from "./modules/me/UserEdit/UserEdit";
+import { setUserReduce } from "./modules/Auth/redux/AuthReduce";
 import "./App.css";
 function App() {
   const dispatch = useDispatch();
@@ -61,12 +62,16 @@ function App() {
             ></Route>
           )}
           <Route path="/users/:slug" element={<Details></Details>}></Route>
-          <Route path="/auth/login" element={<Login></Login>}></Route>
           <Route path="/users/register" element={<Register></Register>}></Route>
+          <Route path="/auth/login" element={<Login></Login>}></Route>
           <Route path="/me/store" element={<Store></Store>}></Route>
           <Route
             path="/me/trash-store"
             element={<TrashStore></TrashStore>}
+          ></Route>
+          <Route
+            path="/me/store/edit/:id"
+            element={<UserEdit></UserEdit>}
           ></Route>
           <Route path="*" exact element={<NotFoundPage></NotFoundPage>}></Route>
 

@@ -18,6 +18,7 @@ class UserController {
       where: {
         id: userId,
       },
+      include: [db.Likes, db.UserImages],
     })
       .then((hehe) => {
         res.json(hehe)
@@ -51,7 +52,12 @@ class UserController {
       res.json(data)
     })
   }
-
+  // [patch] users/edit
+  async edit(req, res, next) {
+    const { id, data } = req.body.params
+    const user = await db.Users.findByPk(id)
+    await user.update(data)
+  }
   // [get] /users
   index(req, res, next) {
     res.json('this is users')
