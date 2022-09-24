@@ -32,12 +32,13 @@ function App() {
             headers: {
               accessToken: localStorage.getItem("accessToken"),
             },
+            userName: userName,
           })
           .then((results) => {
             if (results.data.error) {
               dispatch(setUserReduce({ isLogin: false }));
             } else {
-              dispatch(setUserReduce({ isLogin: true, user: userName }));
+              dispatch(setUserReduce({ isLogin: true, user: results.data }));
             }
           })
           .catch(() => {

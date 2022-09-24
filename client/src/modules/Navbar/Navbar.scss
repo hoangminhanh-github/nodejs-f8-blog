@@ -1,0 +1,25 @@
+nav {
+  color: #b1b3b9;
+  height: 56px;
+  max-height: 56px;
+  a {
+    margin-left: 20px;
+    color: #b1b3b9;
+    padding: 20px 0;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .nav-right {
+    .avatar {
+      width: 30px;
+      border-radius: 50%;
+      margin-left: 10px;
+    }
+    button {
+      color: #b1b3b9;
+      background-color: transparent;
+    }
+  }
+}

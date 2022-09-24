@@ -3,21 +3,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserReduce } from "../Auth/redux/AuthReduce";
 import { AiOutlineUser } from "react-icons/ai";
+
+import "./Navbar.scss";
 const Navbar = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.auth.isLogin);
-  const userName = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
-    dispatch(setUserReduce({ isLogin: false, user: "" }));
+    dispatch(setUserReduce({ isLogin: false, user: {} }));
     alert("User is logout");
     navigate("/");
   };
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex">
-      <Link to={"/"} className="navbar-brand">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light  d-flex">
+      <Link to={"/"} className="">
         Home
       </Link>
       <button
@@ -35,15 +37,12 @@ const Navbar = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
-            <Link
-              to={isLogin ? "/users/create" : "/auth/login"}
-              className="nav-link"
-            >
+            <Link to={isLogin ? "/users/create" : "/auth/login"} className="">
               Create User
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/me/store" className="nav-link" href="">
+            <Link to="/me/store" className="" href="">
               my store
             </Link>
           </li>
@@ -64,13 +63,14 @@ const Navbar = () => {
             className="nav-right"
             style={{ display: "flex", alignItems: "center" }}
           >
-            <span>{userName}</span>
-            <AiOutlineUser />
-            <button
-              className="btn"
-              style={{ backgroundColor: "transparent" }}
-              onClick={handleLogout}
-            >
+            <span>{user?.firstName}</span>
+
+            {user?.avatar ? (
+              <img className="avatar" src={user?.avatar}></img>
+            ) : (
+              <AiOutlineUser />
+            )}
+            <button className="btn" onClick={handleLogout}>
               logout
             </button>
           </div>

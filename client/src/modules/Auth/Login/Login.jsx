@@ -17,13 +17,14 @@ const Login = () => {
     },
     onSubmit: (values) => {
       axios.post("http://localhost:3001/account/login", values).then((data) => {
-        if (!data.data.error) {
+        const response = data?.data;
+        if (!response.error) {
           alert("dang nhap thanh cong");
-          localStorage.setItem("accessToken", data.data);
-          dispatch(setUserReduce({ isLogin: true, user: values.firstName }));
+          localStorage.setItem("accessToken", response.accessToken);
+          dispatch(setUserReduce({ isLogin: true, user: response.result }));
           navigate("/");
         } else {
-          alert(data.data.error);
+          alert(response.error);
         }
       });
     },

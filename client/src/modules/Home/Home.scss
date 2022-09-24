@@ -1,15 +1,36 @@
 .container {
+  margin-top: 20px;
   display: flex;
   gap: 50px;
-  .card {
-    width: 500px;
-    height: 300px;
+  display: flex;
+  flex-direction: column;
+  a {
+    text-decoration: none;
   }
-  .like {
+  &-item {
+    border-radius: 4px;
+    margin: auto;
+    width: 760px;
+    height: 120px;
+    background-color: rgb(248, 219, 221);
     display: flex;
     align-items: center;
-    .icon {
-      color: rgb(255, 0, 0);
+    justify-content: space-between;
+
+    &-right {
+      display: flex;
+      margin-left: 20px;
+    }
+    .image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 16px;
+    }
+    .info {
+      color: white;
+      display: flex;
+      flex-direction: column;
     }
   }
 }

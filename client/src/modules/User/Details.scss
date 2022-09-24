@@ -1,10 +1,12 @@
-.container {
+.details-container {
   display: flex;
+  gap: 100px;
   .card {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 400px;
+    width: 520px;
     .card-body {
       display: flex;
       flex-direction: column;
@@ -39,6 +41,7 @@
     }
   }
   .comments {
+    flex: 1;
     .comment-line {
     }
   }

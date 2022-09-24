@@ -98,7 +98,7 @@ const Details = () => {
   console.log(userDetails?.UserImages);
   return (
     <>
-      <div className="container">
+      <div className="details-container">
         <div className="card">
           <div className="card-body">
             <div className="card-body__image">
@@ -131,7 +131,11 @@ const Details = () => {
                 {userDetails?.firstName} {userDetails?.lastName}
               </h5>
               <span>Email </span>
-              <p className="card-text">{userDetails?.email}</p>
+              <div className="card-text">{userDetails?.email}</div>
+              <span>Social</span>
+              <div>
+                <a href={userDetails?.social}>here</a>
+              </div>
             </div>
           </div>
           {/*  */}

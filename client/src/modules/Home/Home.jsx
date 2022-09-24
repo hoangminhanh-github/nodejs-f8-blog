@@ -22,24 +22,27 @@ const Home = () => {
   };
   return (
     <>
-      <div>This is Home !!</div>
       <div className="container">
         {users?.map((user, index) => (
-          <div className="card" key={index}>
-            <div className="card-body">
-              <h5 className="card-title">{user.firstName + user.lastName}</h5>
-              <p className="card-text">{user.email}</p>
-              <Link
-                to={isLogin ? `users/:${user.id}` : "/auth/login"}
-                className="btn btn-primary"
-              >
-                Go
-              </Link>
-              <div className="like">
-                {user.Likes.length} <AiFillHeart className="icon"></AiFillHeart>
+          <Link to={isLogin ? `users/:${user.id}` : "/auth/login"} key={index}>
+            <div className="container-item">
+              <div className="container-item-right">
+                <img
+                  className="image"
+                  src={user?.UserImages[0]?.image}
+                  alt=""
+                />
+                <div className="info">
+                  <span>{user?.firstName}</span>
+                  <span>{user?.email}</span>
+                  <div className="like">
+                    <AiFillHeart className="icon"></AiFillHeart>
+                    <span>{user?.Likes.length}</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </>

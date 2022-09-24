@@ -25,7 +25,7 @@ class AccountController {
         bcrypt.compare(password, result.password, function (err, allowUser) {
           if (allowUser) {
             const accessToken = jwt.sign({ firstName: firstName, id: result.id }, 'important')
-            res.json(accessToken)
+            res.json({ accessToken, result })
           } else {
             res.json({ error: 'Password for this account is wrong !!!!' })
           }
@@ -35,8 +35,16 @@ class AccountController {
         res.json({ error: 'account not found' })
       })
   }
+  //[post] account/check-login
   checkLogin(req, res, next) {
-    res.json(req.user)
+    const accountName = req.body.userName
+    db.Account.findOne({
+      where: {
+        firstName: accountName,
+      },
+    }).then((results) => {
+      res.json(results)
+    })
   }
 }
 

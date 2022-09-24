@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes, Model) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      social: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       avatar: {
         allowNull: true,
         type: DataTypes.STRING,
