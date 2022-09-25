@@ -33,4 +33,10 @@
       flex-direction: column;
     }
   }
+  .like {
+    align-items: center;
+    .icon {
+      color: rgb(246, 151, 151);
+    }
+  }
 }

@@ -1,6 +1,7 @@
 .details-container {
   display: flex;
   gap: 100px;
+  margin-top: 40px;
   .card {
     display: flex;
     align-items: center;
@@ -41,8 +42,59 @@
     }
   }
   .comments {
-    flex: 1;
-    .comment-line {
+    width: 400px;
+    &-nav {
+      display: flex;
+      align-items: center;
+      img {
+        border-radius: 50%;
+        margin-right: 16px;
+      }
+      input {
+        width: 230px;
+        border-radius: 14px;
+        padding-left: 12px;
+        padding-right: 40px;
+      }
+      button {
+        transform: translateX(-30px);
+        border-bottom-right-radius: 14px;
+        border-top-right-radius: 14px;
+        color: black;
+      }
+    }
+    &-line {
+      max-width: 400px;
+      display: flex;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 16px;
+      }
+      &__body {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        &-content {
+          span {
+            max-width: 280px;
+            overflow-wrap: break-word;
+          }
+          display: flex;
+          justify-content: space-between;
+        }
+        .icon-delete {
+          cursor: pointer;
+        }
+      }
     }
   }
+}
+
+// extend
+.comments-line + .comments-line {
+  margin-top: 16px;
 }

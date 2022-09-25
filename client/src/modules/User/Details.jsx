@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import JWT from "jwt-client";
 import { AiFillLike } from "react-icons/ai";
+import { IoMdSend } from "react-icons/io";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/splide.min.css";
+import { useSelector } from "react-redux";
 
 import "./Details.scss";
 const Details = () => {
@@ -20,11 +22,11 @@ const Details = () => {
   const accessToken = localStorage.getItem("accessToken");
   const currentUserLogin = JWT.read(accessToken).claim.firstName;
   const accountId = JWT.read(accessToken).claim.id;
+  const avatarUser = useSelector((state) => state.auth.user.avatar);
   useEffect(() => {
     getUserDetails();
     getUserComment();
   }, [comment]);
-
   const getUserDetails = async () => {
     const res = await axios.get(`http://localhost:3001/users/${id}/details`);
     setUserDetails(res.data);
@@ -95,7 +97,7 @@ const Details = () => {
     );
     await getLiked();
   };
-  console.log(userDetails?.UserImages);
+  console.log(userComment);
   return (
     <>
       <div className="details-container">
@@ -117,7 +119,7 @@ const Details = () => {
                 }}
               >
                 {userDetails?.UserImages.map((item, index) => (
-                  <SplideSlide>
+                  <SplideSlide key={index}>
                     <div className="card-body__image-item">
                       <img src={item.image} key={index} alt="" />
                     </div>
@@ -149,39 +151,45 @@ const Details = () => {
         </div>
         <div className="comments">
           <form className="comments-write" onSubmit={(e) => handleSubmit(e)}>
-            <div>Write your comment </div>
-            <input
-              type="text"
-              value={comment}
-              onChange={(e) => {
-                setComment(e.target.value);
-              }}
-            />
-            <button type="submit">Enter</button>
+            <div className="comments-nav">
+              <img src={avatarUser} style={{ width: "30px" }} alt="" />
+              <input
+                placeholder="write your comment..."
+                type="text"
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              ></input>
+              <button type="submit">
+                <IoMdSend></IoMdSend>
+              </button>
+            </div>
           </form>
           <h6>{`${
             userDetails?.firstName + userDetails?.lastName
           } comments :`}</h6>
-          {userComment?.map((comment, index) => {
+          {userComment?.comment?.map((comment, index) => {
             const commentId = comment.id;
             return (
-              <div
-                className="comment-line"
-                key={index}
-                style={{ cursor: "pointer" }}
-              >
-                <span
-                  style={{ color: "green", display: "block", width: "100%" }}
-                >
-                  {comment.firstName} đã bình luận :
-                </span>
+              <div className="comments-line" key={index}>
+                <img src={comment?.Account?.avatar} alt="" />
                 <div
+                  className="comments-line__body"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <span key={index}> {comment.commentBody}</span>
-                  {currentUserLogin === comment.firstName && (
-                    <span onClick={() => handleDelete(commentId)}>X</span>
-                  )}
+                  <span key={index}> {comment?.firstName}</span>
+                  <div className="comments-line__body-content">
+                    <span>{comment?.commentBody}</span>
+                    {currentUserLogin === comment?.firstName && (
+                      <span
+                        className="icon-delete"
+                        onClick={() => handleDelete(commentId)}
+                      >
+                        Xóa
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             );

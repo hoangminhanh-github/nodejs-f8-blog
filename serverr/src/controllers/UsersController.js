@@ -30,8 +30,7 @@ class UserController {
   // [delete] /users/delete
   delete(req, res, next) {
     const isForce = req.body.force
-    console.log(req.body.id)
-    console.log(isForce)
+
     db.Users.destroy({
       where: {
         id: req.body.id,

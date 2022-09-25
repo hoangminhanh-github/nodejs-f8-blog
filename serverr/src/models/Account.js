@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     Account.hasMany(models.Likes, {
       onDelete: 'cascade',
     })
+    Account.hasMany(models.Comments, {
+      onDelete: 'cascade',
+    })
   }
   return Account
 }

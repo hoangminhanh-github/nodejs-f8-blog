@@ -1,19 +1,17 @@
 const db = require('../models')
 class CommentController {
   // [get] /comment
-  index(req, res, next) {
+  async index(req, res, next) {
     const userId = req.params.userId
-    db.Comments.findAll({
+    const comment = await db.Comments.findAll({
       where: {
         userId: userId,
       },
+      include: db.Account,
     })
-      .then((result) => {
-        res.json(result)
-      })
-      .catch(() => {
-        res.json(err)
-      })
+    const user = await db.Users.findByPk(userId)
+
+    res.json({ user, comment })
   }
 
   // [post] /comment/create
@@ -21,11 +19,12 @@ class CommentController {
     const comment = req.body.comment
     const userId = req.body.id
     const firstName = req.user.firstName
-    console.log(firstName)
+    const accountId = req.user.id
     db.Comments.create({
       commentBody: comment,
       UserId: userId,
       firstName: firstName,
+      AccountId: accountId,
     })
       .then((results) => {
         res.json(results)
