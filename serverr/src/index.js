@@ -5,6 +5,7 @@ const route = require('./routes/index')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const multer = require('multer')
+const { upload } = require('./controllers/UsersController')
 // const upload = multer()
 
 // ///////
@@ -27,4 +28,5 @@ db.sequelize.sync().then(() => {
     console.log('Server is running om port 3001')
   })
 })
+console.log(' o day ne : ', upload)
 // { alter: true }

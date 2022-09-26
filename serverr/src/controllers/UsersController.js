@@ -1,4 +1,19 @@
 const db = require('../models')
+// const multer = require('multer')
+// // multer
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, './upload')
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+//     cb(null, file.fieldname + '-' + uniqueSuffix)
+//   },
+// })
+
+// const upload = multer({ storage: storage }).single('avatar')
+// console.log(upload)
+
 class UserController {
   // [post] /users/create
   create(req, res, next) {
@@ -57,6 +72,11 @@ class UserController {
     const user = await db.Users.findByPk(id)
     await user.update(data)
   }
+  // [post]/users/upload
+  uploadhehe(req, res, next) {
+    console.log(req)
+  }
+
   // [get] /users
   index(req, res, next) {
     res.json('this is users')

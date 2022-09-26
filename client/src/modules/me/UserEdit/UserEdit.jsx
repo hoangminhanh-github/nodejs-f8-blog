@@ -8,7 +8,7 @@ import axios from "axios";
 import { UploadImg } from "../../../common/UploadImg/UploadImg";
 const UserEdit = () => {
   const { id } = useParams();
-
+  const [hehe, setHehe] = useState();
   const userEdit = useSelector((state) =>
     state.userList.find((item) => {
       return item.id == id;
@@ -21,19 +21,37 @@ const UserEdit = () => {
       firstName: userEdit?.firstName,
       lastName: userEdit?.lastName,
       email: userEdit?.email,
+      avatar: "",
     },
-    onSubmit: async (values) => {
-      await axios.patch("http://localhost:3001/users/edit", {
-        params: {
-          id: id,
-          data: values,
+    onSubmit: async (values, props) => {
+      // await axios.patch("http://localhost:3001/users/edit", {
+      //   params: {
+      //     id: id,
+      //     data: values,
+      //   },
+      // });\
+      let data = new FormData();
+      data.append("firstName", values.firstName);
+      data.append("firstName", values.lastName);
+      data.append("firstName", values.email);
+      data.append("avatar", hehe[0]);
+
+      await axios.post("http://localhost:3001/users/upload", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
       });
+      console.log(data);
     },
   });
+
   return (
     <div className="mt-4">
-      <form action="" onSubmit={formik.handleSubmit}>
+      <form
+        action=""
+        onSubmit={formik.handleSubmit}
+        encType="multipart/form-data"
+      >
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">name</label>
           <input
@@ -68,15 +86,42 @@ const UserEdit = () => {
           />
         </div>
 
-        <div className="form-group">
+        {/*
+         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Email address</label>
           <UploadImg></UploadImg>
+        </div> 
+        */}
+
+        <div className="form-group">
+          <input
+            type="file"
+            name="avatar"
+            className="form-control-file"
+            // onChange={(event) => {
+            //   setHehe(event.currentTarget.files[0].name);
+            // }}
+            onChange={(event) => {
+              setHehe(event.target.files);
+            }}
+            multiple
+          />
         </div>
 
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
       </form>
+      {/* <form
+        action="http://localhost:3001/users/upload"
+        encType="multipart/form-data"
+        method="post"
+      >
+        <div className="form-group">
+          <input type="file" name="avatar" className="form-control-file" />
+          <button type="submit">ok </button>
+        </div>
+      </form> */}
     </div>
   );
 };
