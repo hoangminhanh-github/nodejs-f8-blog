@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes, Model) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      avatar: {
-        allowNull: true,
-        type: DataTypes.STRING,
-      },
     },
     {
       paranoid: true,

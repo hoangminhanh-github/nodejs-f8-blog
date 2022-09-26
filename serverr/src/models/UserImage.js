@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    test: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
   return UserImages
 }

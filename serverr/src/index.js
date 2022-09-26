@@ -4,6 +4,9 @@ const connectDB = require('./config/db')
 const route = require('./routes/index')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const multer = require('multer')
+// const upload = multer()
+
 // ///////
 
 const app = express()

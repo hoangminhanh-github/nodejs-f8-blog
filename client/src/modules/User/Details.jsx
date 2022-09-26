@@ -97,7 +97,7 @@ const Details = () => {
     );
     await getLiked();
   };
-  console.log(userComment);
+
   return (
     <>
       <div className="details-container">

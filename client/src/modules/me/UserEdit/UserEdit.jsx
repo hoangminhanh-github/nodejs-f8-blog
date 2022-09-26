@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 
 import "./UserEdit.scss";
 import axios from "axios";
-
+import { UploadImg } from "../../../common/UploadImg/UploadImg";
 const UserEdit = () => {
   const { id } = useParams();
 
@@ -66,6 +66,11 @@ const UserEdit = () => {
             defaultValue={userEdit?.email}
             onChange={formik.handleChange}
           />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="exampleInputEmail1">Email address</label>
+          <UploadImg></UploadImg>
         </div>
 
         <button type="submit" className="btn btn-primary">
