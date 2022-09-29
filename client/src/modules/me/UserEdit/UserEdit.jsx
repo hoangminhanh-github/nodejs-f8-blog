@@ -9,6 +9,7 @@ import { UploadImg } from "../../../common/UploadImg/UploadImg";
 const UserEdit = () => {
   const { id } = useParams();
   const [hehe, setHehe] = useState();
+  const [multiImage, setMultiImage] = useState();
   const userEdit = useSelector((state) =>
     state.userList.find((item) => {
       return item.id == id;
@@ -21,35 +22,39 @@ const UserEdit = () => {
       firstName: userEdit?.firstName,
       lastName: userEdit?.lastName,
       email: userEdit?.email,
-      avatar: "",
+      avatar: [],
     },
     onSubmit: async (values, props) => {
-      // await axios.patch("http://localhost:3001/users/edit", {
-      //   params: {
-      //     id: id,
-      //     data: values,
-      //   },
-      // });\
       let data = new FormData();
-      data.append("firstName", values.firstName);
-      data.append("firstName", values.lastName);
-      data.append("firstName", values.email);
-      data.append("avatar", hehe[0]);
 
-      await axios.post("http://localhost:3001/users/upload", data, {
+      for (let i = 0; i < multiImage.length; i++) {
+        data.append("avatar", multiImage[i]);
+      }
+      console.log(data.get("avatar"));
+
+      data.append("id", id);
+      data.append("firstName", values.firstName);
+      data.append("lastName", values.lastName);
+      data.append("email", values.email);
+      // data.append("avatar", results);
+      await axios.post("http://localhost:3001/users/edit", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(data);
     },
   });
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    formik.handleSubmit();
+  };
   return (
     <div className="mt-4">
       <form
         action=""
-        onSubmit={formik.handleSubmit}
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
         encType="multipart/form-data"
       >
         <div className="form-group">
@@ -86,25 +91,15 @@ const UserEdit = () => {
           />
         </div>
 
-        {/*
-         <div className="form-group">
-          <label htmlFor="exampleInputEmail1">Email address</label>
-          <UploadImg></UploadImg>
-        </div> 
-        */}
-
         <div className="form-group">
           <input
             type="file"
             name="avatar"
             className="form-control-file"
-            // onChange={(event) => {
-            //   setHehe(event.currentTarget.files[0].name);
-            // }}
             onChange={(event) => {
-              setHehe(event.target.files);
+              setMultiImage(event.target.files);
             }}
-            multiple
+            multiple={true}
           />
         </div>
 
@@ -112,16 +107,6 @@ const UserEdit = () => {
           Submit
         </button>
       </form>
-      {/* <form
-        action="http://localhost:3001/users/upload"
-        encType="multipart/form-data"
-        method="post"
-      >
-        <div className="form-group">
-          <input type="file" name="avatar" className="form-control-file" />
-          <button type="submit">ok </button>
-        </div>
-      </form> */}
     </div>
   );
 };

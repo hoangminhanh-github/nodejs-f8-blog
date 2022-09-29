@@ -9,6 +9,7 @@ import "@splidejs/splide/dist/css/splide.min.css";
 import { useSelector } from "react-redux";
 
 import "./Details.scss";
+
 const Details = () => {
   const { slug } = useParams();
   slug.split(":");
@@ -121,7 +122,11 @@ const Details = () => {
                 {userDetails?.UserImages.map((item, index) => (
                   <SplideSlide key={index}>
                     <div className="card-body__image-item">
-                      <img src={item.image} key={index} alt="" />
+                      <img
+                        src={`/img/userImages/${item.image}`}
+                        key={index}
+                        alt=""
+                      />
                     </div>
                   </SplideSlide>
                 ))}

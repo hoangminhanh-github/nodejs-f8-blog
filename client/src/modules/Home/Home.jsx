@@ -29,7 +29,7 @@ const Home = () => {
               <div className="container-item-right">
                 <img
                   className="image"
-                  src={user?.UserImages[0]?.image}
+                  src={`/img/userImages/${user?.UserImages[0]?.image}`}
                   alt=""
                 />
                 <div className="info">

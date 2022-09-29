@@ -68,9 +68,13 @@ class UserController {
   }
   // [patch] users/edit
   async edit(req, res, next) {
-    const { id, data } = req.body.params
-    const user = await db.Users.findByPk(id)
-    await user.update(data)
+    const formData = req.body
+    const files = req.files
+    const user = await db.Users.findByPk(formData.id)
+    await user.update(formData)
+    files.map((item) => {
+      db.UserImages.create({ UserId: formData.id, image: item.originalname })
+    })
   }
   // [post]/users/upload
   uploadhehe(req, res, next) {

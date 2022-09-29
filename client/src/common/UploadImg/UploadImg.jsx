@@ -2,7 +2,7 @@ import React from "react";
 import ImageUploading from "react-images-uploading";
 
 import toBase64 from "../../ultis/toBase64";
-export function UploadImg() {
+export function UploadImg({ setHaha, name }) {
   const [images, setImages] = React.useState([]);
   const maxNumber = 69;
 
@@ -12,16 +12,20 @@ export function UploadImg() {
     // // const base64 = await toBase64(imageList);
     // console.log(base64);
     // // setImages(base64);
+    setImages(imageList);
+    setHaha(imageList);
   };
 
   return (
     <div className="UploadImg">
       <ImageUploading
+        name={name}
         multiple
         value={images}
         onChange={onChange}
         maxNumber={maxNumber}
         dataURLKey="data_url"
+        type="file"
       >
         {({
           imageList,

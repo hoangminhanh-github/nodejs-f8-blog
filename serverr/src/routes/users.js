@@ -7,7 +7,7 @@ const multer = require('multer')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './upload')
+    cb(null, '../client/public/img/userImages')
   },
   filename: function (req, file, cb) {
     // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
@@ -19,10 +19,9 @@ const upload = multer({ storage: storage })
 
 const router = express.Router()
 router.post('/create', UserController.create)
-router.post('/upload', upload.single('avatar'), UserController.uploadhehe)
 router.get('/:id/details', UserController.details)
 router.patch('/restore', UserController.reStore)
-router.patch('/edit', UserController.edit)
+router.post('/edit', upload.array('avatar', 3), UserController.edit)
 router.delete('/delete', UserController.delete)
 router.get('/', UserController.index)
 
