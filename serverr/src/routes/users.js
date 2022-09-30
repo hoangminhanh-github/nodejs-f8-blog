@@ -18,10 +18,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 const router = express.Router()
-router.post('/create', UserController.create)
+router.post('/create', upload.any(), UserController.create)
 router.get('/:id/details', UserController.details)
 router.patch('/restore', UserController.reStore)
-router.post('/edit', upload.array('avatar', 3), UserController.edit)
+router.post('/edit', upload.array('avatar', 5), UserController.edit)
 router.delete('/delete', UserController.delete)
 router.get('/', UserController.index)
 

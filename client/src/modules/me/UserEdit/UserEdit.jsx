@@ -8,7 +8,7 @@ import axios from "axios";
 import { UploadImg } from "../../../common/UploadImg/UploadImg";
 const UserEdit = () => {
   const { id } = useParams();
-  const [hehe, setHehe] = useState();
+
   const [multiImage, setMultiImage] = useState();
   const userEdit = useSelector((state) =>
     state.userList.find((item) => {
@@ -30,7 +30,6 @@ const UserEdit = () => {
       for (let i = 0; i < multiImage.length; i++) {
         data.append("avatar", multiImage[i]);
       }
-      console.log(data.get("avatar"));
 
       data.append("id", id);
       data.append("firstName", values.firstName);

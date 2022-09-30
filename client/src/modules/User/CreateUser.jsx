@@ -1,25 +1,44 @@
 import React from "react";
 import axios from "axios";
 import { useFormik } from "formik";
+import { useState } from "react";
 const CreateUser = () => {
-  const createUser = async (values) => {
-    console.log(values);
-    await axios.post("http://localhost:3001/users/create", values);
-  };
+  const [multiImage, setMultiImage] = useState();
+  // const createUser = async (values) => {
+  //   console.log(values);
+  //   await axios.post("http://localhost:3001/users/create", values);
+  // };
 
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
+      avatar: "",
     },
-    onSubmit: (values) => {
-      createUser(values);
+    onSubmit: async (values) => {
+      let data = new FormData();
+      for (let i = 0; i < multiImage.length; i++) {
+        data.append("avatar", multiImage[i]);
+      }
+      data.append("firstName", values.firstName);
+      data.append("lastName", values.lastName);
+      data.append("email", values.email);
+
+      await axios.post("http://localhost:3001/users/create", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     },
   });
   return (
     <div className="mt-4">
-      <form action="" onSubmit={formik.handleSubmit}>
+      <form
+        action=""
+        onSubmit={formik.handleSubmit}
+        encType="multipart/form-data"
+      >
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">name</label>
           <input
@@ -48,6 +67,16 @@ const CreateUser = () => {
             placeholder="Enter first name"
             onChange={formik.handleChange}
             name="email"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            type="file"
+            multiple
+            name="avatar"
+            onChange={(e) => {
+              setMultiImage(e.target.files);
+            }}
           />
         </div>
 

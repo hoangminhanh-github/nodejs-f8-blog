@@ -16,15 +16,14 @@ const db = require('../models')
 
 class UserController {
   // [post] /users/create
-  create(req, res, next) {
+  async create(req, res, next) {
     const post = req.body
-    db.Users.create(post)
-      .then((hehe) => {
-        res.json(hehe)
-      })
-      .catch((err) => {
-        res.json(err)
-      })
+    const files = req.files
+    const newUser = await db.Users.create(post)
+    files.map((item) => {
+      db.UserImages.create({ UserId: newUser.id, image: item.originalname })
+    })
+    res.json(newUser)
   }
   // [post] /users/:id/details
   details(req, res, next) {

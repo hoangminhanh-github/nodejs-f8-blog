@@ -10,9 +10,12 @@ import Model from "../../../common/Modal/Modal";
 import "./Store.scss";
 const Store = () => {
   const [info, setInfo] = useState();
+  const [page, setPage] = useState();
   const [isModel, setIsModel] = useState(false);
-  const getInfo = async () => {
-    const res = await axios.get("http://localhost:3001/");
+  const getInfo = async (offset) => {
+    const res = await axios.get("http://localhost:3001/", {
+      params: { offset: offset },
+    });
     setInfo(res.data);
   };
   useEffect(() => {
@@ -74,7 +77,7 @@ const Store = () => {
       }
     },
   });
-
+  console.log(page);
   return (
     <form onSubmit={formik.handleSubmit} className="store__container">
       <h3>store</h3>
@@ -144,6 +147,21 @@ const Store = () => {
           ))}
         </tbody>
       </table>
+      <select
+        name=""
+        id=""
+        onChange={(e) => {
+          setPage(e.target.value);
+          getInfo(e.target.value);
+        }}
+      >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+      </select>
       <Link to="/me/trash-store">Thùng rác</Link>
     </form>
   );

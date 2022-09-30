@@ -20,6 +20,7 @@ const Home = () => {
     await dispatch(setUserListReduce(res.data));
     await setUsers(res.data);
   };
+  console.log(users);
   return (
     <>
       <div className="container">
