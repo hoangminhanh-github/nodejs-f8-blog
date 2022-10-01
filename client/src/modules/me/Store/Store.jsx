@@ -1,35 +1,55 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { BsTrashFill } from "react-icons/bs";
-import { AiFillEdit } from "react-icons/ai";
+import { BsTrashFill, BsArrowDown, BsArrowUp } from "react-icons/bs";
+import {
+  AiFillEdit,
+  AiOutlineSortAscending,
+  AiOutlineSortDescending,
+} from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import moment from "moment";
 
-import Model from "../../../common/Modal/Modal";
 import "./Store.scss";
 const Store = () => {
   const [info, setInfo] = useState();
   const [page, setPage] = useState();
   const [isNameSort, setIsNameSort] = useState(false);
-  const [isUpDatedSort, setIsUpDatedSort] = useState(false);
-  const [isModel, setIsModel] = useState(false);
+  const [isCreatedSort, setIsCreatedSort] = useState(false);
+  const [isAgeSort, setIsAgeSort] = useState(false);
   const getInfo = async (prev) => {
     console.log(prev);
     let offset = prev?.offset;
+    // name sort
     const _isNameSort =
       prev?._isNameSort !== undefined ? prev._isNameSort : isNameSort;
-    let _isUpDatedSort = prev?._isUpDatedSort;
-    console.log(_isNameSort);
+    // create sort
+    const _isCreatedSort =
+      prev?._isCreatedSort !== undefined ? prev._isCreatedSort : isCreatedSort;
+    // age sort
+    const _isAgeSort =
+      prev?._isAgeSort !== undefined ? prev._isAgeSort : isAgeSort;
+    // sort array defind
+    let sortArr = [];
+    if (_isNameSort) {
+      sortArr = ["firstName", "ASC"];
+    }
+    if (_isCreatedSort) {
+      sortArr = ["createdAt", "DESC"];
+    }
+    if (_isAgeSort) {
+      sortArr = ["age", "ASC"];
+    }
+
+    console.log(sortArr);
     const res = await axios.get("http://localhost:3001/", {
       params: {
         offset: offset || page,
-        order: _isNameSort ? ["firstName", "ASC"] : undefined,
+        order: sortArr.length > 0 ? sortArr : undefined,
       },
     });
     setInfo(res.data);
   };
-  console.log(isNameSort);
   useEffect(() => {
     getInfo();
   }, []);
@@ -121,13 +141,57 @@ const Store = () => {
               onClick={() => {
                 let _isNameSort = !isNameSort;
                 setIsNameSort((prev) => !prev);
-                getInfo({ _isNameSort: _isNameSort });
+                getInfo({
+                  _isNameSort: _isNameSort,
+                  _isCreatedSort: false,
+                  isAgeSort: false,
+                });
+                setIsCreatedSort(false);
+                setIsAgeSort(false);
               }}
             >
               Name
+              {isNameSort ? (
+                <AiOutlineSortAscending />
+              ) : (
+                <AiOutlineSortDescending />
+              )}
+            </th>
+            <th
+              scope="col"
+              onClick={() => {
+                let _isAgeSort = !isAgeSort;
+                setIsAgeSort((prev) => !prev);
+                getInfo({
+                  _isAgeSort: _isAgeSort,
+                  _isNameSort: false,
+                  _isCreatedSort: false,
+                });
+                setIsNameSort(false);
+                setIsCreatedSort(false);
+              }}
+            >
+              Age
+              {isAgeSort ? <BsArrowDown /> : <BsArrowUp />}
             </th>
             <th scope="col">Email</th>
-            <th scope="col">Create At </th>
+            <th
+              scope="col"
+              onClick={() => {
+                let _isCreatedSort = !isCreatedSort;
+                setIsCreatedSort((prev) => !prev);
+                getInfo({
+                  _isCreatedSort: _isCreatedSort,
+                  _isNameSort: false,
+                  isAgeSort: false,
+                });
+                setIsNameSort(false);
+                setIsAgeSort(false);
+              }}
+            >
+              Create At
+              {isCreatedSort ? <BsArrowDown /> : <BsArrowUp />}
+            </th>
             <th scope="col">Update At </th>
             <th></th>
           </tr>
@@ -151,6 +215,7 @@ const Store = () => {
                 ></input>
               </th>
               <td>{` ${item.firstName} ${item.lastName}`}</td>
+              <td>{item.age}</td>
               <td>{item.email}</td>
               {/*  */}
               {/* <td>{item.updatedAt}</td> */}
