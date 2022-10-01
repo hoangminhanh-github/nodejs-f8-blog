@@ -11,17 +11,28 @@ import "./Store.scss";
 const Store = () => {
   const [info, setInfo] = useState();
   const [page, setPage] = useState();
+  const [isNameSort, setIsNameSort] = useState(false);
+  const [isUpDatedSort, setIsUpDatedSort] = useState(false);
   const [isModel, setIsModel] = useState(false);
-  const getInfo = async (offset) => {
+  const getInfo = async (prev) => {
+    console.log(prev);
+    let offset = prev?.offset;
+    const _isNameSort =
+      prev?._isNameSort !== undefined ? prev._isNameSort : isNameSort;
+    let _isUpDatedSort = prev?._isUpDatedSort;
+    console.log(_isNameSort);
     const res = await axios.get("http://localhost:3001/", {
-      params: { offset: offset },
+      params: {
+        offset: offset || page,
+        order: _isNameSort ? ["firstName", "ASC"] : undefined,
+      },
     });
     setInfo(res.data);
   };
+  console.log(isNameSort);
   useEffect(() => {
     getInfo();
   }, []);
-
   const handleChange = (e) => {
     const { id, checked } = e.target;
     if (id === "allSelect") {
@@ -77,7 +88,7 @@ const Store = () => {
       }
     },
   });
-  console.log(page);
+
   return (
     <form onSubmit={formik.handleSubmit} className="store__container">
       <h3>store</h3>
@@ -105,8 +116,18 @@ const Store = () => {
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
+            <th
+              scope="col"
+              onClick={() => {
+                let _isNameSort = !isNameSort;
+                setIsNameSort((prev) => !prev);
+                getInfo({ _isNameSort: _isNameSort });
+              }}
+            >
+              Name
+            </th>
             <th scope="col">Email</th>
+            <th scope="col">Create At </th>
             <th scope="col">Update At </th>
             <th></th>
           </tr>
@@ -133,6 +154,7 @@ const Store = () => {
               <td>{item.email}</td>
               {/*  */}
               {/* <td>{item.updatedAt}</td> */}
+              <td>{moment(item.createdAt).format("ll")}</td>
               <td>{moment(item.updatedAt).format("ll")}</td>
               <td>
                 <Link to={`/me/store/edit/${item.id}`}>
@@ -151,8 +173,9 @@ const Store = () => {
         name=""
         id=""
         onChange={(e) => {
+          const offset = e.target.value;
           setPage(e.target.value);
-          getInfo(e.target.value);
+          getInfo({ offset: offset });
         }}
       >
         <option value="1">1</option>

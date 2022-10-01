@@ -28,12 +28,13 @@ class SiteController {
       if (req.query.offset) {
         currOffset = req.query.offset
       }
+      const currentOrder = req.query.order
       db.Users.findAll({
         include: [db.Likes, db.UserImages],
-        // order: [['firstName', 'ASC']],
         offset: 5 * (Number(currOffset) - 1),
         limit: 5,
-        // paranoid: false,
+
+        order: currentOrder ? [currentOrder] : [],
       }).then((data) => {
         res.json(data)
       })
