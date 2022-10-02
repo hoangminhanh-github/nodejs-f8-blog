@@ -11,14 +11,15 @@ import { useFormik } from "formik";
 import moment from "moment";
 
 import "./Store.scss";
+import Pagination from "../../../common/Pagination/Pagination";
 const Store = () => {
   const [info, setInfo] = useState();
   const [page, setPage] = useState();
+  const [totalPage, setTotalPage] = useState(0);
   const [isNameSort, setIsNameSort] = useState(false);
   const [isCreatedSort, setIsCreatedSort] = useState(false);
   const [isAgeSort, setIsAgeSort] = useState(false);
   const getInfo = async (prev) => {
-    console.log(prev);
     let offset = prev?.offset;
     // name sort
     const _isNameSort =
@@ -41,18 +42,20 @@ const Store = () => {
       sortArr = ["age", "ASC"];
     }
 
-    console.log(sortArr);
     const res = await axios.get("http://localhost:3001/", {
       params: {
         offset: offset || page,
         order: sortArr.length > 0 ? sortArr : undefined,
       },
     });
-    setInfo(res.data);
+    setTotalPage(res.data.extend?.totalUser);
+    setInfo(res.data.data);
   };
   useEffect(() => {
     getInfo();
   }, []);
+
+  // handle Checked
   const handleChange = (e) => {
     const { id, checked } = e.target;
     if (id === "allSelect") {
@@ -67,6 +70,7 @@ const Store = () => {
       setInfo(tempUser);
     }
   };
+  // handle Delete
   const handleDelete = async (id) => {
     if (window.confirm(`Delete user id ${id}`)) {
       await axios.delete(`http://localhost:3001/users/delete`, {
@@ -108,7 +112,12 @@ const Store = () => {
       }
     },
   });
-
+  // handle change page
+  const handlePageChange = (e, value) => {
+    const offset = value;
+    setPage(value);
+    getInfo({ offset: offset });
+  };
   return (
     <form onSubmit={formik.handleSubmit} className="store__container">
       <h3>store</h3>
@@ -234,22 +243,7 @@ const Store = () => {
           ))}
         </tbody>
       </table>
-      <select
-        name=""
-        id=""
-        onChange={(e) => {
-          const offset = e.target.value;
-          setPage(e.target.value);
-          getInfo({ offset: offset });
-        }}
-      >
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-      </select>
+      <Pagination count={totalPage} onChange={handlePageChange}></Pagination>
       <Link to="/me/trash-store">Thùng rác</Link>
     </form>
   );

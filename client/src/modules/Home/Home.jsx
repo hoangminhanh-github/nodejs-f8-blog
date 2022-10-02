@@ -17,8 +17,8 @@ const Home = () => {
   }, []);
   const getUser = async () => {
     const res = await axios.get("http://localhost:3001/");
-    await dispatch(setUserListReduce(res.data));
-    await setUsers(res.data);
+    await dispatch(setUserListReduce(res.data.data));
+    await setUsers(res.data.data);
   };
   console.log(users);
   return (

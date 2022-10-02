@@ -35,7 +35,7 @@ class SiteController {
         limit: 5,
         order: currentOrder !== undefined ? [currentOrder] : [],
       }).then((data) => {
-        res.json(data)
+        res.json({ data: data, extend: { totalUser: amount } })
       })
     }
   }
